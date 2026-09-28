@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Fisio em Casa</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="app">
+
+  <!-- LOGIN -->
+  <main class="screen active" id="s-login">
+    <div style="flex:1; display:flex; flex-direction:column; justify-content:center; gap:22px;">
+      <div style="text-align:center;">
+        <p class="eyebrow" style="color:var(--teal-deep); justify-content:center; display:flex;">Protótipo acadêmico</p>
+        <h1 style="font-size:27px;">Fisio em Casa</h1>
+        <p style="color:var(--ink-soft); font-size:13px; margin-top:6px;">Seu tratamento continua em movimento.</p>
+      </div>
+      <div class="card">
+        <div class="field">
+          <label for="login-email">E-mail</label>
+          <input type="email" id="login-email" placeholder="voce@fisioemcasa.com" autocomplete="email">
+        </div>
+        <div class="field">
+          <label for="login-senha">Senha</label>
+          <input type="password" id="login-senha" placeholder="••••••••" autocomplete="current-password">
+        </div>
+        <p id="login-error" style="display:none; color:var(--coral); font-size:12px; font-weight:600; margin-bottom:10px;"></p>
+        <button class="btn btn-primary" onclick="doLogin()">Entrar</button>
+        <button class="btn-ghost" onclick="show('s-signup')">Ainda não tem conta? Criar conta</button>
+      </div>
+      <div>
+        <p class="section-label" style="margin-top:0;">Contas de demonstração</p>
+        <div class="chip-row" id="demo-chips"></div>
+      </div>
+    </div>
+  </main>
+
+  <!-- CADASTRO -->
+  <section class="screen" id="s-signup">
+    <div class="topbar">
+      <button class="backbtn" aria-label="Voltar ao login" onclick="show('s-login')">&larr;</button>
+      <h2 style="font-size:19px;">Criar conta de paciente</h2>
+    </div>
+    <div class="card">
+      <div class="field">
+        <label for="signup-nome">Nome completo</label>
+        <input type="text" id="signup-nome" placeholder="Seu nome">
+      </div>
+      <div class="field">
+        <label for="signup-email">E-mail</label>
+        <input type="email" id="signup-email" placeholder="voce@email.com">
+      </div>
+      <div class="field">
+        <label for="signup-senha">Senha</label>
+        <input type="password" id="signup-senha" placeholder="••••••••">
+      </div>
+      <button class="btn btn-primary" onclick="doSignup()">Criar conta e entrar</button>
+    </div>
+    <p class="footnote" style="margin-top:14px;">Uma conta nova começa sem rotina — cabe ao fisioterapeuta prescrever os exercícios após a avaliação inicial. Contas de fisioterapeuta são cadastradas pela clínica (veja as contas de demonstração na tela de login).</p>
+  </section>
+
+  <!-- HOME PACIENTE -->
+  <section class="screen" id="s-dash">
+    <div class="intro-card">
+      <p class="eyebrow">Paciente &middot; <span id="dash-condition">Gonartrose</span></p>
+      <h1 class="intro-title" id="dash-greeting">Olá, Maria</h1>
+      <p class="intro-sub">Progresso da sessão</p>
+      <div class="progressbar"><div class="progressfill" id="dash-progress-fill" style="width:0%;"></div></div>
+      <div class="intro-labels"><span id="dash-progress-txt">0 de 3 concluídos</span><span>&asymp; 10 min no total</span></div>
+    </div>
+    <h3 class="section-label">Exercícios de hoje</h3>
+    <div class="card" id="dash-exlist"></div>
+    <div style="flex:1;"></div>
+    <button class="btn btn-primary" id="dash-start-btn" onclick="beginTraining()">Começar treino</button>
+  </section>
+
+  <!-- MEUS EXERCICIOS (paciente) -->
+  <section class="screen" id="s-exercicios">
+    <div class="topbar"><h2 style="font-size:19px;">Meus exercícios</h2></div>
+    <p style="font-size:12.5px; color:var(--ink-soft); margin-bottom:14px;">Sua rotina completa, prescrita pelo seu fisioterapeuta.</p>
+    <div class="card" id="exlist-full"></div>
+  </section>
+
+  <!-- TELA DE EXERCICIO -->
+  <section class="screen" id="s-exercise">
+    <div class="topbar">
+      <button class="backbtn" aria-label="Voltar" onclick="exerciseBack()">&larr;</button>
+      <h2 style="font-size:17px;" id="ex-title">Agachamento</h2>
+    </div>
+
+    <!-- DEMONSTRAÇÃO DO MOVIMENTO COM GIF REAL -->
+    <div class="illus-stage card" id="ex-gif-stage">
+      <img id="ex-gif-img" src="assets/gifs/agachamento.gif" alt="Demonstração do exercício" class="ex-gif">
+      <div class="illus-caption" id="ex-gif-caption">Execução do movimento</div>
+    </div>
+
+    <!-- DETALHES DO EXERCÍCIO -->
+    <div style="display:flex; gap:10px; margin-bottom:14px;">
+      <div class="card" style="flex:1; text-align:center; padding:12px;">
+        <div style="font-weight:600; font-family:var(--font-display); font-size:16px;" id="ex-sets">3&times;10</div>
+        <div style="font-size:11px; color:var(--ink-soft);">séries &times; reps</div>
+      </div>
+      <div class="card" style="flex:1; text-align:center; padding:12px;">
+        <div style="font-weight:600; font-family:var(--font-display); font-size:16px;" id="ex-time">~4 min</div>
+        <div style="font-size:11px; color:var(--ink-soft);">duração</div>
+      </div>
+    </div>
+    <div class="card steps" style="margin-bottom:12px;">
+      <p style="font-weight:700; font-size:13px; margin-bottom:6px;">Como fazer</p>
+      <ol id="ex-steps"></ol>
+    </div>
+    <div class="card" style="margin-bottom:14px; font-size:12.5px; color:var(--ink-soft); line-height:1.7;">
+      <b style="color:var(--ink);">Articulações envolvidas:</b> <span id="ex-joints"></span><br>
+      <b style="color:var(--ink);">Movimentos:</b> <span id="ex-moves"></span><br>
+      <b style="color:var(--ink);">Músculos principais:</b> <span id="ex-muscles"></span><br>
+      <b style="color:var(--ink);">Por que ajuda:</b> <span id="ex-why"></span>
+    </div>
+    <button class="btn btn-primary" id="ex-complete-btn" onclick="openCheckin()">Concluir exercício</button>
+    <button class="btn btn-secondary" id="ex-voltar-btn" style="display:none;" onclick="exerciseBack()">Voltar à ficha do paciente</button>
+  </section>
+
+  <!-- CHECK-IN -->
+  <section class="screen" id="s-checkin">
+    <div class="topbar"><h2 style="font-size:19px;">Exercício concluído</h2></div>
+    <div class="card" style="margin-bottom:14px;">
+      <p style="font-weight:700;" id="check-exname">Agachamento</p>
+      <p style="font-size:12.5px; color:var(--ink-soft);" id="check-exsets">3 séries &times; 10 repetições</p>
+    </div>
+    <p style="font-weight:700; font-size:13px; margin-bottom:8px;">Como foi a execução?</p>
+    <div class="seg" style="margin-bottom:14px;">
+      <button class="seg-btn" onclick="setRating('facil',this)">Tranquilo</button>
+      <button class="seg-btn" onclick="setRating('medio',this)">Moderado</button>
+      <button class="seg-btn" onclick="setRating('dificil',this)">Difícil</button>
+    </div>
+    <div class="field">
+      <label for="check-note">Observação (opcional)</label>
+      <textarea id="check-note" placeholder="Ex.: senti um leve desconforto no joelho..."></textarea>
+    </div>
+    <div style="flex:1;"></div>
+    <button class="btn btn-primary" onclick="saveCheckin()">Salvar e continuar</button>
+  </section>
+
+  <!-- EVOLUCAO -->
+  <section class="screen" id="s-evolucao">
+    <div class="topbar"><h2 style="font-size:19px;" id="ev-title">Minha evolução</h2></div>
+    <div style="display:flex; gap:10px; margin-bottom:14px;">
+      <div class="card stat" style="flex:1;"><div class="num" id="ev-sessions">8</div><div class="lbl">Sessões</div></div>
+      <div class="card stat" style="flex:1;"><div class="num" id="ev-completed">24</div><div class="lbl">Exercícios</div></div>
+      <div class="card stat" style="flex:1;"><div class="num" id="ev-freq">3&times;</div><div class="lbl">Por semana</div></div>
+    </div>
+    <div class="card" style="margin-bottom:14px;">
+      <p style="font-weight:700; font-size:13px; margin-bottom:2px;">Qualidade de execução autorrelatada</p>
+      <p class="footnote" style="margin-bottom:10px;">Acompanhamento visual semanal de assiduidade.</p>
+      <div class="barwrap" id="ev-bars"></div>
+    </div>
+    <div class="ia-card" style="margin-bottom:14px;">
+      <p style="font-weight:700; font-size:12px; margin-bottom:4px;">Insight da IA &middot; apoio ao acompanhamento</p>
+      <p style="font-size:12px; color:var(--ink-soft); line-height:1.6;" id="ev-insight">&mdash;</p>
+    </div>
+    <div class="card">
+      <p style="font-weight:700; font-size:13px; margin-bottom:8px;">Últimas sessões</p>
+      <div id="ev-history"></div>
+    </div>
+    <p class="footnote" style="margin-top:14px;">Os dados apresentados são ilustrativos e fazem parte do protótipo acadêmico &mdash; não substituem avaliação profissional.</p>
+  </section>
+
+  <!-- INICIO FISIOTERAPEUTA -->
+  <section class="screen" id="s-physio-dash">
+    <div class="intro-card">
+      <p class="eyebrow">Fisioterapeuta</p>
+      <h1 class="intro-title" id="physio-greeting" style="margin-bottom:14px;">Olá, Dr. Ana Ribeiro</h1>
+      <div class="stat-row">
+        <div><span class="stat-num" id="physio-patient-count">5</span><span class="stat-lbl">pacientes ativos</span></div>
+        <div class="stat-div"></div>
+        <div><span class="stat-num" id="physio-session-count">33</span><span class="stat-lbl">sessões registradas</span></div>
+      </div>
+    </div>
+    <h3 class="section-label">Pacientes que podem precisar de atenção</h3>
+    <div class="card" id="physio-attention" style="margin-bottom:6px;"></div>
+    <button class="btn-ghost" onclick="show('s-physio-list')">Ver todos os pacientes &rarr;</button>
+  </section>
+
+  <!-- LISTA DE PACIENTES -->
+  <section class="screen" id="s-physio-list">
+    <div class="topbar"><h2 style="font-size:19px;">Pacientes</h2></div>
+    <div class="card" id="physio-list"></div>
+  </section>
+
+  <!-- DETALHES DO PACIENTE (FISIOTERAPEUTA) -->
+  <section class="screen" id="s-physio-patient">
+    <div class="topbar">
+      <button class="backbtn" aria-label="Voltar aos pacientes" onclick="show('s-physio-list')">&larr;</button>
+      <h2 style="font-size:17px;">Paciente: <span id="pp-name">Maria Silva</span></h2>
+    </div>
+    <p class="eyebrow" style="color:var(--teal-deep);" id="pp-condition">Condição</p>
+    <div class="card" style="margin-bottom:12px; margin-top:10px;">
+      <p style="font-weight:700; font-size:13px; margin-bottom:8px;">Exercícios prescritos</p>
+      <div id="pp-exlist"></div>
+    </div>
+    <div style="display:flex; gap:10px; margin-bottom:12px;">
+      <div class="card stat" style="flex:1;"><div class="num" id="pp-sessions">8</div><div class="lbl">Sessões</div></div>
+      <div class="card stat" style="flex:1;"><div class="num" id="pp-completed">24</div><div class="lbl">Concluídos</div></div>
+      <div class="card stat" style="flex:1;"><div class="num" id="pp-evolution">86%</div><div class="lbl">Evolução</div></div>
+    </div>
+    <div class="card" style="margin-bottom:12px; font-size:12.5px; color:var(--ink-soft);">
+      <b style="color:var(--ink);">Última sessão:</b> <span id="pp-lastsession">hoje &middot; Agachamento</span>
+    </div>
+    <div class="ia-card" style="margin-bottom:12px;">
+      <p style="font-weight:700; font-size:12px; margin-bottom:4px;">Insight da IA</p>
+      <p style="font-size:12px; color:var(--ink-soft); line-height:1.6;" id="pp-insight">&mdash;</p>
+    </div>
+    <div class="card">
+      <label for="pp-obs">Observações do fisioterapeuta</label>
+      <textarea id="pp-obs" placeholder="Ex.: Paciente apresentou melhora na execução do movimento."></textarea>
+      <div style="height:10px;"></div>
+      <button class="btn btn-primary" onclick="savePhysioObservation()">Salvar observação</button>
+    </div>
+  </section>
+
+  <!-- PERFIL -->
+  <section class="screen" id="s-perfil">
+    <div class="topbar"><h2 style="font-size:19px;">Perfil</h2></div>
+    <div class="card" style="padding:20px;">
+      <p style="font-weight:700; font-size:15px;" id="perfil-nome">Maria Silva</p>
+      <p style="font-size:12.5px; color:var(--ink-soft); margin-top:3px;" id="perfil-tipo">Paciente</p>
+    </div>
+
+    <!-- PERSISTÊNCIA OFFLINE (JSON) -->
+    <div class="card" style="margin-top:12px; margin-bottom:12px;">
+      <p style="font-weight:700; font-size:13px; margin-bottom:4px;">Persistência de Dados (JSON)</p>
+      <p style="font-size:12px; color:var(--ink-soft); margin-bottom:12px;">Seus treinos, notas e novos cadastros ficam gravados offline em formato JSON no navegador.</p>
+      <button class="btn btn-secondary" style="margin-bottom:8px; font-size:13px; padding:10px;" onclick="exportDatabaseJSON()">Baixar backup (arquivo .json)</button>
+      <button class="btn-ghost" style="text-align:center; color:var(--coral);" onclick="resetDemoDatabase()">Restaurar dados padrão de fábrica</button>
+    </div>
+
+    <button class="btn btn-secondary" style="margin-bottom:10px;" onclick="show('s-sobre')">Sobre o Fisio em Casa</button>
+    <button class="btn btn-secondary" onclick="show('s-login')">Sair</button>
+    <p class="footnote" style="margin-top:16px;">Fisio em Casa &mdash; protótipo acadêmico (A3, Movimento Humano). Não substitui avaliação profissional.</p>
+  </section>
+
+  <!-- SOBRE -->
+  <section class="screen" id="s-sobre">
+    <div class="topbar">
+      <button class="backbtn" aria-label="Voltar ao perfil" onclick="show('s-perfil')">&larr;</button>
+      <h2 style="font-size:17px;">Sobre o Fisio em Casa</h2>
+    </div>
+    <div class="card" style="margin-bottom:12px; font-size:13.5px; line-height:1.8; color:var(--ink-soft);">
+      O Fisio em Casa é um protótipo acadêmico de acompanhamento de exercícios fisioterapêuticos domiciliares. O paciente segue a rotina prescrita, registra como foi cada sessão, e o fisioterapeuta acompanha a evolução e os relatos ao longo do tempo &mdash; com apoio de indicadores de IA que ajudam a identificar padrões, sem tomar decisões clínicas de forma autônoma.
+    </div>
+    <div class="card" style="border-color:var(--amber);">
+      <p style="font-weight:700; font-size:13px; margin-bottom:4px;">Importante</p>
+      <p style="font-size:12.5px; color:var(--ink-soft);">Este protótipo não substitui a avaliação ou orientação de um fisioterapeuta e não realiza diagnóstico.</p>
+    </div>
+    <p class="footnote" style="margin-top:16px;">Projeto A3 &mdash; UC Movimento Humano &middot; Universidade São Judas.</p>
+  </section>
+
+  <!-- BARRAS DE NAVEGAÇÃO -->
+  <nav class="navbar" id="nav-patient" style="display:none;" aria-label="Navegação do paciente"></nav>
+  <nav class="navbar" id="nav-physio" style="display:none;" aria-label="Navegação do fisioterapeuta"></nav>
+
+</div>
+
+<script src="js/app.js"></script>
+</body>
+</html>
