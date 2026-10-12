@@ -18,16 +18,59 @@ const EXERCISES = [
     time: '~4 min',
     gif: 'assets/gifs/agachamento.gif',
     caption: 'Posição inicial ↔ Posição final (Agachamento livre)',
-    joints: 'quadril, joelho e tornozelo',
-    moves: 'flexão, extensão e dorsiflexão do tornozelo',
-    muscles: 'quadríceps, glúteo máximo, isquiotibiais e tríceps sural',
-    why: 'fortalece os principais grupos musculares dos membros inferiores, essenciais para caminhar, subir escadas e manter o equilíbrio.',
+    joints: 'Coxofemoral (esferoide), Femorotibial/Femoropatelar (gínglimo bicondilar) e Talocrural (gínglimo)',
+    planes: 'Plano Sagital em torno do Eixo Látero-Lateral',
+    moves: 'Flexão de quadril e joelho com dorsiflexão (descida); Extensão de quadril e joelho com flexão plantar (subida)',
+    muscles: 'Quadríceps femoral (reto femoral, vasto lateral, vasto medial, vasto intermédio) e Glúteo máximo',
+    antagonistsSynergists: 'Antagonistas: Isquiotibiais e Iliopsoas. Sinergistas/Estabilizadores: Glúteo médio e mínimo (prevenção do valgo dinâmico), Tríceps sural, Eretores da espinha e Transverso do abdômen',
+    contraction: 'Excêntrica na descida (controle gravitacional); Concêntrica na subida (vencendo a gravidade)',
+    lever: '3ª Classe (Interpotente) — Potência muscular aplicada entre o fulcro articular e a resistência corporal',
+    why: 'Exercício em Cadeia Cinética Fechada (CCF) com alta coativação muscular, reduzindo forças de cisalhamento patelofemoral e fortalecendo quadríceps e estabilizadores pélvicos em gonartrose.',
     steps: [
-      'Posicione os pés de forma confortável na largura dos ombros.',
-      'Mantenha o tronco ereto e o abdômen contraído.',
+      'Posicione os pés de forma confortável na largura dos ombros com pontas ligeiramente para fora.',
+      'Mantenha o tronco ereto, escápulas aduzidas e abdômen contraído.',
       'Flexione quadril e joelhos simulando sentar em uma cadeira.',
-      'Desça de maneira controlada até onde for confortável.',
-      'Retorne à posição inicial empurrando o chão com os calcanhares.'
+      'Desça de maneira controlada até aproximadamente 90° de flexão de joelhos.',
+      'Retorne à posição inicial empurrando o chão com calcanhares, alinhando os joelhos com o 2º dedo do pé.'
+    ],
+    aiLandmarks: {
+      hip: { cx: 135, cy: 65, label: 'Quadril (82°)' },
+      knee: { cx: 152, cy: 120, label: 'Joelho (88°)' },
+      ankle: { cx: 140, cy: 175, label: 'Tornozelo (22°)' },
+      arc: 'M 145 106 A 18 18 0 0 1 155 134'
+    },
+    aiMetrics: {
+      angle: '88°',
+      angleTarget: '✓ Alvo: 80°–90°',
+      align: '0° desvio',
+      alignStatus: '✓ Sem valgo dinâmico',
+      symm: '51% D · 49% E',
+      symmStatus: '✓ Carga balanceada',
+      time: '2.1 s',
+      timeStatus: '✓ Cadência controlada'
+    },
+    aiFeedback: 'Excelente padrão biomecânico! Joelho alinhado com o 2º dedo do pé, sem aproximação medial excessiva (valgo dinâmico preservado). Amplitude de 88° atingida com transição suave.',
+    motorSteps: [
+      {
+        title: 'Etapa 1: Execução do Paciente',
+        desc: 'O paciente inicia o agachamento gerando impulsos motores eferentes via córtex motor primário e tratos corticoespinhais para a musculatura extensora dos membros inferiores.'
+      },
+      {
+        title: 'Etapa 2: Análise Sensorial e IA',
+        desc: 'A visão computacional rastreia em tempo real os marcos articulares (trocânter maior, côndilo femoral e maléolo lateral), calculando o ângulo e o alinhamento frontal.'
+      },
+      {
+        title: 'Etapa 3: Feedback Extrínseco (CR e CP)',
+        desc: 'O sistema fornece Conhecimento de Resultados - CR (meta de 88° alcançada) e Conhecimento de Performance - CP (joelhos sem colapso medial), complementando o feedback proprioceptivo intrínseco.'
+      },
+      {
+        title: 'Etapa 4: Correção e Ajuste Motor (Feedforward)',
+        desc: 'O cerebelo e a área pré-motora processam as discrepâncias entre o movimento esperado e o realizado, recalculando o recrutamento do glúteo médio para as repetições seguintes.'
+      },
+      {
+        title: 'Etapa 5: Nova Execução Refinada',
+        desc: 'O paciente executa a repetição seguinte com alinhamento corrigido, acelerando a transição da Fase Cognitiva para a Fase Associativa da aprendizagem motora.'
+      }
     ]
   },
   {
@@ -37,15 +80,59 @@ const EXERCISES = [
     time: '~3 min',
     gif: 'assets/gifs/panturrilha.gif',
     caption: 'Calcanhares no chão ↔ Elevação na ponta dos pés',
-    joints: 'tornozelo',
-    moves: 'flexão plantar',
-    muscles: 'tríceps sural (gastrocnêmio e sóleo)',
-    why: 'fortalece a panturrilha, importante para a propulsão da marcha e a estabilidade do tornozelo.',
+    joints: 'Talocrural (sinovial gínglimo) e Subtalar (sinovial plana)',
+    planes: 'Plano Sagital em torno do Eixo Látero-Lateral',
+    moves: 'Flexão plantar (elevação concêntrica) e dorsiflexão controlada (descida excêntrica)',
+    muscles: 'Tríceps sural: Gastrocnêmio medial, Gastrocnêmio lateral e Sóleo',
+    antagonistsSynergists: 'Antagonistas: Tibial anterior, extensor longo dos dedos e hálux. Sinergistas: Tibial posterior, fibular longo e curto',
+    contraction: 'Concêntrica na elevação do calcanhar; Excêntrica no retorno lento ao solo',
+    lever: '2ª Classe (Inter-resistente) — Apoio nas cabeças dos metatarsos, resistência no tornozelo e potência no tendão calcâneo. Grande vantagem mecânica.',
+    why: 'Fortalece o complexo gastro-sóleo, essencial para a propulsão da marcha, equilíbrio estático e prevenção primária de quedas.',
     steps: [
-      'Fique em pé, apoiando as mãos em uma parede ou cadeira para equilíbrio se necessário.',
-      'Eleve os calcanhares lentamente, ficando na ponta dos pés.',
-      'Segure por 1 segundo no topo do movimento.',
-      'Desça de forma suave e controlada.'
+      'Fique em pé próximo a uma parede ou apoio fixo para equilíbrio.',
+      'Mantenha os pés paralelos e o tronco alinhado.',
+      'Eleve os calcanhares lentamente, transferindo o peso para as cabeças dos metatarsos.',
+      'Sustente a contração máxima por 1 segundo no topo da flexão plantar.',
+      'Desça de maneira controlada até encostar suavemente os calcanhares no solo.'
+    ],
+    aiLandmarks: {
+      hip: { cx: 135, cy: 50, label: 'Pelve (0°)' },
+      knee: { cx: 138, cy: 110, label: 'Joelho (180°)' },
+      ankle: { cx: 142, cy: 170, label: 'Tornozelo (45°)' },
+      arc: 'M 138 155 A 14 14 0 0 1 146 175'
+    },
+    aiMetrics: {
+      angle: '42°',
+      angleTarget: '✓ Alvo: 35°–45°',
+      align: '0° varo/valgo',
+      alignStatus: '✓ Apoio metatarsal uniforme',
+      symm: '50% D · 50% E',
+      symmStatus: '✓ Simetria perfeita',
+      time: '1.8 s',
+      timeStatus: '✓ Isometria sustentada'
+    },
+    aiFeedback: 'Ótima amplitude de flexão plantar (42°)! Distribuição uniforme de carga entre o 1º e o 5º metatarso, sem desvio lateral excessivo do retropé.',
+    motorSteps: [
+      {
+        title: 'Etapa 1: Execução do Paciente',
+        desc: 'O paciente realiza a flexão plantar ativando o tríceps sural contra a carga da gravidade.'
+      },
+      {
+        title: 'Etapa 2: Análise Sensorial e IA',
+        desc: 'A IA calcula a altura de elevação do calcâneo e a inclinação varo/valgo do retropé.'
+      },
+      {
+        title: 'Etapa 3: Feedback Extrínseco (CR e CP)',
+        desc: 'Feedback imediato indicando sustentação no pico e ausência de sobrecarga lateral.'
+      },
+      {
+        title: 'Etapa 4: Correção e Ajuste Motor',
+        desc: 'Ajuste no recrutamento do tibial posterior e fibulares para manter a linha média de apoio.'
+      },
+      {
+        title: 'Etapa 5: Nova Execução Refinada',
+        desc: 'Repetição com elevação simétrica e ganho progressivo de propriocepção subtalar.'
+      }
     ]
   },
   {
@@ -54,16 +141,59 @@ const EXERCISES = [
     sets: '3×10',
     time: '~3 min',
     gif: 'assets/gifs/joelho.gif',
-    caption: 'Joelho fletido ↔ Extensão controlada',
-    joints: 'joelho',
-    moves: 'extensão',
-    muscles: 'quadríceps',
-    why: 'fortalece o quadríceps de forma controlada, com baixo impacto sobre a articulação do joelho.',
+    caption: 'Joelho fletido ↔ Extensão controlada sentado',
+    joints: 'Femorotibial e Femoropatelar (sinovial gínglimo / bicondilar) em Cadeia Cinética Aberta (CCA)',
+    planes: 'Plano Sagital em torno do Eixo Látero-Lateral',
+    moves: 'Extensão de joelho (concêntrica) e flexão controlada (excêntrica)',
+    muscles: 'Quadríceps femoral (Vasto lateral, Vasto medial / VMO, Vasto intermédio e Reto femoral)',
+    antagonistsSynergists: 'Antagonistas: Bíceps femoral, semitendíneo e semimembranoso. Sinergistas: Tensor da fáscia lata',
+    contraction: 'Concêntrica na elevação da perna; Excêntrica na descida resistindo à gravidade',
+    lever: '3ª Classe (Interpotente) — Fulcro no eixo do joelho, potência no tendão patelar e resistência no peso da perna/pé.',
+    why: 'Permite fortalecimento isolado e analítico do quadríceps, fundamental para a estabilidade patelar e alívio de dor em artrose do joelho sem compressão axial.',
     steps: [
-      'Sente-se com as costas bem apoiadas na cadeira.',
-      'Estenda o joelho lentamente até que a perna fique reta à frente.',
-      'Segure por 1 segundo na posição estendida.',
-      'Retorne devagar à posição inicial.'
+      'Sente-se com as costas totalmente apoiadas no encosto da cadeira e pés apoiados no chão.',
+      'Estenda o joelho lentamente até que a perna fique alinhada horizontalmente com a coxa.',
+      'Sustente a perna estendida por 1 a 2 segundos contraindo a coxa.',
+      'Retorne suavemente até a flexão inicial de 90°.'
+    ],
+    aiLandmarks: {
+      hip: { cx: 110, cy: 80, label: 'Quadril (90°)' },
+      knee: { cx: 145, cy: 110, label: 'Joelho (5°)' },
+      ankle: { cx: 195, cy: 115, label: 'Tornozelo (Extensão)' },
+      arc: 'M 130 95 A 18 18 0 0 1 165 110'
+    },
+    aiMetrics: {
+      angle: '175°',
+      angleTarget: '✓ Extensão quase total (170°–180°)',
+      align: '0° rotação',
+      alignStatus: '✓ Alinhamento patelar preservado',
+      symm: 'Isolado',
+      symmStatus: '✓ Execução unilateral estável',
+      time: '2.0 s',
+      timeStatus: '✓ Isometria final mantida'
+    },
+    aiFeedback: 'Extensão de joelho executada com excelente controle excêntrico e ativação seletiva do vasto medial oblíquo (VMO). Sem compensação de tronco.',
+    motorSteps: [
+      {
+        title: 'Etapa 1: Execução do Paciente',
+        desc: 'Disparo de unidades motoras do quadríceps femoral contra o torque de resistência da gravidade.'
+      },
+      {
+        title: 'Etapa 2: Análise Sensorial e IA',
+        desc: 'Verificação da amplitude terminal de extensão (terminal extension) e da postura lombar.'
+      },
+      {
+        title: 'Etapa 3: Feedback Extrínseco (CR e CP)',
+        desc: 'Indicação visual do arco de movimento atingido (175°) e tempo de sustentação no pico.'
+      },
+      {
+        title: 'Etapa 4: Correção e Ajuste Motor',
+        desc: 'Prevenção de compensação pélvica ou inclinação posterior do tronco durante a fase final.'
+      },
+      {
+        title: 'Etapa 5: Nova Execução Refinada',
+        desc: 'Movimento fluido com foco na contração pura da coxa e controle motor do quadríceps.'
+      }
     ]
   },
   {
@@ -73,16 +203,59 @@ const EXERCISES = [
     time: '~4 min',
     gif: 'assets/gifs/ponte.gif',
     caption: 'Quadril no chão ↔ Elevação com contração de glúteos',
-    joints: 'quadril e coluna lombar',
-    moves: 'extensão de quadril',
-    muscles: 'glúteo máximo e eretores da espinha',
-    why: 'fortalece a musculatura posterior do quadril e estabiliza a região lombar — indicado para quadros de lombalgia.',
+    joints: 'Coxofemoral bilateral (esferoide) e Coluna Lombar / Sacroilíaca',
+    planes: 'Plano Sagital em torno do Eixo Látero-Lateral',
+    moves: 'Extensão de quadril com estabilização lombo-pélvica',
+    muscles: 'Glúteo máximo e Isquiotibiais',
+    antagonistsSynergists: 'Antagonistas: Iliopsoas e Reto femoral. Sinergistas/Estabilizadores: Eretores da espinha, Glúteo médio, Transverso do abdômen e Multífidos',
+    contraction: 'Concêntrica na elevação pélvica; Isometria no topo; Excêntrica na descida lenta',
+    lever: '3ª Classe (Interpotente) — Eixo nos joelhos/ombros com potência glútea elevando a massa corporal.',
+    why: 'Ativa a cadeia posterior e estabilizadores profundos do core, restaurando o ritmo lombo-pélvico e aliviando a dor em quadros de lombalgia crônica.',
     steps: [
-      'Deite-se de barriga para cima com os joelhos flexionados e pés firmes no chão.',
-      'Contraia abdômen e glúteos.',
-      'Eleve o quadril até formar uma linha reta dos joelhos aos ombros.',
-      'Segure por 2 segundos no topo.',
-      'Desça de forma controlada sem relaxar totalmente.'
+      'Deite-se de barriga para cima com joelhos fletidos a 90° e pés apoiados na largura do quadril.',
+      'Ative o abdômen e contraia conscientemente os glúteos.',
+      'Eleve a pelve até formar uma linha reta entre ombros, quadril e joelhos.',
+      'Segure por 2 segundos no topo sem hiperestender a coluna lombar.',
+      'Desça lentamente mantendo os glúteos sob tensão controlada.'
+    ],
+    aiLandmarks: {
+      hip: { cx: 135, cy: 110, label: 'Pelve (180° neutra)' },
+      knee: { cx: 175, cy: 135, label: 'Joelho (90°)' },
+      ankle: { cx: 185, cy: 170, label: 'Tornozelo (Apoio)' },
+      arc: 'M 125 110 A 18 18 0 0 1 150 120'
+    },
+    aiMetrics: {
+      angle: '180°',
+      angleTarget: '✓ Alinhamento ombro-quadril-joelho',
+      align: '0° báscula',
+      alignStatus: '✓ Pelve nivelada sem queda',
+      symm: '50% D · 50% E',
+      symmStatus: '✓ Apoio bilateral simétrico',
+      time: '2.2 s',
+      timeStatus: '✓ Sustentação no topo'
+    },
+    aiFeedback: 'Alinhamento lombo-pélvico perfeito! Elevação completa alcançada sem hiperextensão lombar compensatória e com ativação glútea equilibrada bilateralmente.',
+    motorSteps: [
+      {
+        title: 'Etapa 1: Execução do Paciente',
+        desc: 'Recrutamento concêntrico simultâneo dos glúteos e isquiotibiais para elevar a pelve.'
+      },
+      {
+        title: 'Etapa 2: Análise Sensorial e IA',
+        desc: 'Rastreamento do vetor ombro-quadril-joelho e verificação de báscula pélvica lateral.'
+      },
+      {
+        title: 'Etapa 3: Feedback Extrínseco (CR e CP)',
+        desc: 'Confirmação do alinhamento neutro de 180° e advertência caso ocorra arqueamento lombar.'
+      },
+      {
+        title: 'Etapa 4: Correção e Ajuste Motor',
+        desc: 'Sincronização entre contração glútea e coativação do transverso abdominal (core).'
+      },
+      {
+        title: 'Etapa 5: Nova Execução Refinada',
+        desc: 'Padrão estável com dissociação articular de quadril e coluna lombar.'
+      }
     ]
   },
   {
@@ -92,15 +265,59 @@ const EXERCISES = [
     time: '~5 min',
     gif: 'assets/gifs/marcha.gif',
     caption: 'Apoio no solo ↔ Elevação alternada de joelhos',
-    joints: 'quadril, joelho e tornozelo',
-    moves: 'flexão alternada de quadril',
-    muscles: 'flexores de quadril e estabilizadores do tornozelo',
-    why: 'trabalha equilíbrio e coordenação dinâmica, reduzindo o risco de quedas — indicado para pacientes idosos.',
+    joints: 'Coxofemoral, Femorotibial e Talocrural em ciclos alternados de apoio e balanço',
+    planes: 'Plano Sagital (flexão/extensão) com controle no Plano Frontal (abdução pélvica)',
+    moves: 'Flexão alternada de quadril e joelho com dorsiflexão',
+    muscles: 'Iliopsoas, Reto femoral, Tríceps sural e Tibial anterior',
+    antagonistsSynergists: 'Antagonistas: Glúteo máximo ipsilateral. Sinergistas: Glúteo médio contralateral (suporte anti-Trendelenburg) e Core estabilizador',
+    contraction: 'Alternância rítmica de contrações concêntricas e excêntricas',
+    lever: 'Combinação de 1ª e 3ª classes no balanço e apoio monopodal da pelve.',
+    why: 'Treina o equilíbrio dinâmico, cadência e propriocepção dos membros inferiores, reduzindo drasticamente o risco de quedas em idosos.',
     steps: [
-      'Fique em pé próximo a um suporte fixo se precisar de segurança.',
-      'Eleve um joelho por vez, simulando uma marcha no mesmo lugar.',
-      'Mantenha o tronco firme e o olhar para frente.',
-      'Alterne o ritmo de forma contínua durante 30 segundos.'
+      'Fique em pé próximo a uma parede ou corrimão para apoio caso sinta desequilíbrio.',
+      'Mantenha o olhar fixo à frente e a coluna ereta.',
+      'Eleve um joelho até aproximadamente a altura do quadril, mantendo o pé fletido.',
+      'Abaixe suavemente enquanto eleva o joelho oposto em ritmo constante.',
+      'Mantenha a respiração cadenciada durante todo o período da série.'
+    ],
+    aiLandmarks: {
+      hip: { cx: 135, cy: 75, label: 'Quadril' },
+      knee: { cx: 155, cy: 110, label: 'Joelho (85° flexão)' },
+      ankle: { cx: 150, cy: 165, label: 'Tornozelo (Dorsiflexão)' },
+      arc: 'M 140 95 A 16 16 0 0 1 155 125'
+    },
+    aiMetrics: {
+      angle: '85°',
+      angleTarget: '✓ Altura de joelho segura',
+      align: '0° oscilação',
+      alignStatus: '✓ Tronco estável e vertical',
+      symm: '48% D · 52% E',
+      symmStatus: '✓ Cadência rítmica',
+      time: '1.0 s/passo',
+      timeStatus: '✓ Ritmo constante'
+    },
+    aiFeedback: 'Ótima cadência e estabilidade no plano frontal! O glúteo médio do membro de apoio manteve a pelve perfeitamente nivelada, sem queda de Trendelenburg.',
+    motorSteps: [
+      {
+        title: 'Etapa 1: Execução do Paciente',
+        desc: 'Ciclo coordenado de elevação alternada ativando geradores de padrão central e vias motoras.'
+      },
+      {
+        title: 'Etapa 2: Análise Sensorial e IA',
+        desc: 'Cálculo da altura média de elevação do joelho e da estabilidade coronal da pelve.'
+      },
+      {
+        title: 'Etapa 3: Feedback Extrínseco (CR e CP)',
+        desc: 'Métrica de ritmo de passos por minuto e alinhamento do centro de massa.'
+      },
+      {
+        title: 'Etapa 4: Correção e Ajuste Motor',
+        desc: 'Ajuste postural do tronco para evitar inclinações laterais compensatórias.'
+      },
+      {
+        title: 'Etapa 5: Nova Execução Refinada',
+        desc: 'Automatização do padrão motor com ganho de confiança e segurança na deambulação.'
+      }
     ]
   },
   {
@@ -110,15 +327,59 @@ const EXERCISES = [
     time: '~4 min',
     gif: 'assets/gifs/ombro.gif',
     caption: 'Cotovelo a 90° junto ao corpo ↔ Rotação externa',
-    joints: 'ombro',
-    moves: 'rotação externa glenoumeral',
-    muscles: 'manguito rotador (infraespinal e redondo menor)',
-    why: 'fortalece o manguito rotador, essencial na estabilidade e na reabilitação de tendinites do ombro.',
+    joints: 'Glenoumeral (sinovial esferoide, triaxial) e Cíngulo Escapulotorácico',
+    planes: 'Plano Transversal em torno do Eixo Longitudinal / Vertical',
+    moves: 'Rotação externa (lateral) da cabeça umeral na fossa glenoide com cotovelo fletido a 90°',
+    muscles: 'Manguito rotador posterior: Infraespinal e Redondo menor',
+    antagonistsSynergists: 'Antagonistas: Subescapular, Peitoral maior e Latíssimo do dorso. Sinergistas: Deltoide posterior, Romboides e Trapézio inferior (fixadores escapulares)',
+    contraction: 'Concêntrica na rotação externa; Excêntrica no retorno lento à posição neutra',
+    lever: '3ª Classe (Interpotente) — Fulcro no eixo da articulação glenoumeral.',
+    why: 'Reabilitação padrão de tendinites do manguito rotador, promovendo centralização da cabeça do úmero na cavidade glenoide e descompressão subacromial.',
     steps: [
-      'Mantenha o cotovelo fletido a 90° e colado ao tronco.',
-      'Segure uma faixa elástica ou realize o movimento livremente.',
-      'Gire o antebraço para fora lentamente sem afastar o cotovelo da costela.',
-      'Retorne com controle à posição inicial.'
+      'Mantenha a postura ereta com escápulas estabilizadas.',
+      'Dobre o cotovelo a 90° colado ao tronco lateralmente.',
+      'Gire o antebraço para fora de forma lenta e controlada, mantendo o cotovelo encostado à costela.',
+      'Sustente 1 segundo no limite seguro de amplitude.',
+      'Retorne devagar sem relaxar repentinamente.'
+    ],
+    aiLandmarks: {
+      hip: { cx: 135, cy: 55, label: 'Ombro (Glenoumeral)' },
+      knee: { cx: 135, cy: 115, label: 'Cotovelo (90° colado)' },
+      ankle: { cx: 180, cy: 115, label: 'Punho (40° rotação)' },
+      arc: 'M 145 105 A 18 18 0 0 1 165 115'
+    },
+    aiMetrics: {
+      angle: '40°',
+      angleTarget: '✓ Amplitude terapêutica (35°–45°)',
+      align: '0 cm desvio',
+      alignStatus: '✓ Cotovelo fixo ao tronco',
+      symm: 'Unilateral',
+      symmStatus: '✓ Sem compensação escapular',
+      time: '2.0 s',
+      timeStatus: '✓ Retorno excêntrico controlado'
+    },
+    aiFeedback: 'Execução exemplar! Cotovelo mantido perfeitamente adjacente ao tronco sem abdução compensatória, garantindo isolamento preciso do infraespinal e redondo menor.',
+    motorSteps: [
+      {
+        title: 'Etapa 1: Execução do Paciente',
+        desc: 'Ativação do manguito rotador posterior para rodar externamente o úmero.'
+      },
+      {
+        title: 'Etapa 2: Análise Sensorial e IA',
+        desc: 'Verificação da distância cotovelo-tronco e do ângulo de excursão do antebraço.'
+      },
+      {
+        title: 'Etapa 3: Feedback Extrínseco (CR e CP)',
+        desc: 'Sinalização caso o cotovelo se afaste do tronco ou ocorra elevação escapular indesejada.'
+      },
+      {
+        title: 'Etapa 4: Correção e Ajuste Motor',
+        desc: 'Manutenção da ancoragem da escápula contra a caixa torácica via serrátil e trapézio.'
+      },
+      {
+        title: 'Etapa 5: Nova Execução Refinada',
+        desc: 'Movimento biomecanicamente limpo com descompressão subacromial contínua.'
+      }
     ]
   },
   {
@@ -128,15 +389,59 @@ const EXERCISES = [
     time: '~4 min',
     gif: 'assets/gifs/slr.gif',
     caption: 'Deitado ↔ Elevação de perna reta até 45°',
-    joints: 'quadril, com joelho estabilizado em extensão',
-    moves: 'flexão de quadril com joelho em extensão isométrica',
-    muscles: 'quadríceps (isometria) e flexores de quadril',
-    why: 'fortalece o quadríceps sem cisalhamento articular excessivo no joelho — indicado no pós-cirúrgico.',
+    joints: 'Coxofemoral (móvel) e Femorotibial (estabilizada em 0° de extensão)',
+    planes: 'Plano Sagital em torno do Eixo Látero-Lateral',
+    moves: 'Flexão de quadril com joelho estendido mantido em isometria',
+    muscles: 'Iliopsoas, Reto femoral e Tensor da fáscia lata',
+    antagonistsSynergists: 'Antagonistas: Glúteo máximo e Isquiotibiais. Isometria de suporte: Vasto lateral, intermédio e medial travando a patela. Estabilizadores: Parede abdominal',
+    contraction: 'Concêntrica no quadril com isometria contínua do quadríceps na extensão do joelho',
+    lever: '3ª Classe (Interpotente) com braço de resistência longo, gerando torque gravitacional elevado.',
+    why: 'Padrão ouro em pós-operatório (ex.: LCA) para recrutar o quadríceps sem cisalhamento fêmoro-patelar decorrente da flexão articular.',
     steps: [
-      'Deite-se de barriga para cima com uma perna estendida e a outra flexionada com pé apoiado.',
-      'Contraia a musculatura da coxa da perna estendida.',
-      'Eleve a perna reta até a altura do joelho da outra perna.',
-      'Desça devagar controlando a descida.'
+      'Deite-se de barriga para cima com uma perna flexionada e a perna a ser exercitada esticada.',
+      'Contraia a coxa da perna esticada, travando o joelho em extensão total.',
+      'Eleve a perna reta até a altura aproximada do joelho contralateral (cerca de 45°).',
+      'Segure 1 segundo no topo sem deixar a perna dobrar.',
+      'Desça lentamente sem tocar o calcanhar com força no solo.'
+    ],
+    aiLandmarks: {
+      hip: { cx: 100, cy: 135, label: 'Quadril (Fulcro)' },
+      knee: { cx: 145, cy: 110, label: 'Joelho (180° travado)' },
+      ankle: { cx: 190, cy: 85, label: 'Tornozelo (45° elevação)' },
+      arc: 'M 115 130 A 18 18 0 0 1 135 120'
+    },
+    aiMetrics: {
+      angle: '45°',
+      angleTarget: '✓ Elevação alvo (40°–45°)',
+      align: '0° flexão',
+      alignStatus: '✓ Joelho totalmente estendido',
+      symm: 'Unilateral',
+      symmStatus: '✓ Sem báscula pélvica',
+      time: '2.3 s',
+      timeStatus: '✓ Descida excêntrica controlada'
+    },
+    aiFeedback: 'Excelente estabilização! Joelho mantido em 0° de extensão durante todo o arco de flexão de quadril, recrutando o reto femoral com segurança.',
+    motorSteps: [
+      {
+        title: 'Etapa 1: Execução do Paciente',
+        desc: 'Coativação do quadríceps em extensão enquanto o iliopsoas traciona a perna para cima.'
+      },
+      {
+        title: 'Etapa 2: Análise Sensorial e IA',
+        desc: 'Verificação da rigidez do vetor do joelho e da altura máxima de flexão de quadril.'
+      },
+      {
+        title: 'Etapa 3: Feedback Extrínseco (CR e CP)',
+        desc: 'Aviso imediato se o joelho ceder ou fletir antes de atingir os 45°.'
+      },
+      {
+        title: 'Etapa 4: Correção e Ajuste Motor',
+        desc: 'Aumento da tensão isométrica dos vastos medial e lateral para travar a articulação.'
+      },
+      {
+        title: 'Etapa 5: Nova Execução Refinada',
+        desc: 'Repetição com controle rígido da cadeia cinética e sem sobrecarga na coluna lombar.'
+      }
     ]
   },
   {
@@ -146,15 +451,59 @@ const EXERCISES = [
     time: '~4 min',
     gif: 'assets/gifs/alongamento.gif',
     caption: 'Perna estendida ↔ Inclinação suave do tronco',
-    joints: 'quadril e joelho',
-    moves: 'flexão de quadril com joelho estendido',
-    muscles: 'isquiotibiais',
-    why: 'reduz a tensão na cadeia posterior e na região lombar, melhorando a flexibilidade funcional.',
+    joints: 'Coxofemoral e Femorotibial com alongamento miotendíneo',
+    planes: 'Plano Sagital em torno do Eixo Látero-Lateral',
+    moves: 'Flexão sustentada do quadril com joelho estendido',
+    muscles: 'Grupo Isquiotibial: Bíceps femoral, Semitendíneo e Semimembranoso',
+    antagonistsSynergists: 'Antagonistas acionados: Quadríceps femoral e Iliopsoas (ativação recíproca)',
+    contraction: 'Alongamento estático sustentado (estiramento de sarcômeros e colágeno tendíneo)',
+    lever: 'Alavanca interfixa e interpotente combinada na bacia e coluna.',
+    why: 'Restaura a amplitude de movimento articular (ADM), atenua a retração da cadeia posterior e alivia tensões de tração na coluna lombar.',
     steps: [
-      'Sente-se na ponta da cadeira com uma perna estendida à frente e calcanhar no chão.',
-      'Incline o tronco à frente a partir do quadril, mantendo a coluna alinhada.',
-      'Sinta uma leve tração atrás da coxa, sem sensação de dor aguda.',
-      'Mantenha a posição por 20 a 30 segundos respirando normalmente.'
+      'Sente-se na ponta da cadeira, estenda uma perna à frente apoiando o calcanhar no solo.',
+      'Mantenha a coluna neutra e ereta.',
+      'Incline suavemente o tronco para a frente a partir do quadril, sem arredondar as costas.',
+      'Pare assim que sentir um estiramento confortável e tolerável atrás da coxa.',
+      'Mantenha a respiração suave durante 30 segundos.'
+    ],
+    aiLandmarks: {
+      hip: { cx: 120, cy: 90, label: 'Quadril (Flexão anterior)' },
+      knee: { cx: 155, cy: 120, label: 'Joelho (Extensão)' },
+      ankle: { cx: 195, cy: 145, label: 'Calcâneo no solo' },
+      arc: 'M 130 95 A 18 18 0 0 1 150 115'
+    },
+    aiMetrics: {
+      angle: '30 s',
+      angleTarget: '✓ Tempo alvo: 20s–30s',
+      align: 'Neutro',
+      alignStatus: '✓ Coluna lombar preservada',
+      symm: 'Unilateral',
+      symmStatus: '✓ Relaxamento progressivo',
+      time: '30 s',
+      timeStatus: '✓ Sustentação sem rebote'
+    },
+    aiFeedback: 'Alongamento executado com técnica segura! Flexão proveniente da bacia e não da curvatura lombar, garantindo estímulo autógeno nos fusos musculares sem dor aguda.',
+    motorSteps: [
+      {
+        title: 'Etapa 1: Execução do Paciente',
+        desc: 'Posicionamento estático e inclinação pélvica ativando os fusos musculares dos isquiotibiais.'
+      },
+      {
+        title: 'Etapa 2: Análise Sensorial e IA',
+        desc: 'Verificação do alinhamento da coluna lombar e da sustentação contínua da postura.'
+      },
+      {
+        title: 'Etapa 3: Feedback Extrínseco (CR e CP)',
+        desc: 'Cronômetro visual de 30 segundos com orientação de não realizar rebotes balísticos.'
+      },
+      {
+        title: 'Etapa 4: Correção e Ajuste Motor',
+        desc: 'Ação do Órgão Tendinoso de Golgi (OTG) permitindo relaxamento autógeno das fibras musculares.'
+      },
+      {
+        title: 'Etapa 5: Nova Execução Refinada',
+        desc: 'Ganho progressivo de flexibilidade funcional e alívio da sobrecarga postural.'
+      }
     ]
   }
 ];
@@ -336,7 +685,11 @@ let state = {
   current: EXERCISES[0],
   rating: null,
   exerciseOrigin: 'dash',
-  currentPatient: null
+  currentPatient: null,
+  iaAnalysisCompleted: false,
+  isValgusSimulated: false,
+  isSkeletonVisible: true,
+  currentMotorStep: 1
 };
 
 // Inicialização dos elementos
@@ -400,8 +753,8 @@ function syncNav(id) {
   if (!bar || bar.style.display === 'none') return;
 
   const map = state.role === 'patient'
-    ? { 's-dash': 0, 's-exercicios': 1, 's-exercise': 1, 's-checkin': 1, 's-evolucao': 2, 's-perfil': 3, 's-sobre': 3 }
-    : { 's-physio-dash': 0, 's-physio-list': 1, 's-physio-patient': 1, 's-exercise': 1, 's-evolucao': 2, 's-perfil': 3, 's-sobre': 3 };
+    ? { 's-dash': 0, 's-exercicios': 1, 's-exercise': 1, 's-ia-analysis': 1, 's-checkin': 1, 's-evolucao': 2, 's-perfil': 3, 's-sobre': 3 }
+    : { 's-physio-dash': 0, 's-physio-list': 1, 's-physio-patient': 1, 's-exercise': 1, 's-ia-analysis': 1, 's-evolucao': 2, 's-perfil': 3, 's-sobre': 3 };
 
   const idx = map[id];
   bar.querySelectorAll('.navitem').forEach((b, i) => b.classList.toggle('active', i === idx));
@@ -674,13 +1027,25 @@ function openExercise(id, origin) {
 
   state.current = ex;
   state.exerciseOrigin = origin || 'dash';
+  state.iaAnalysisCompleted = false;
 
   document.getElementById('ex-title').textContent = ex.name;
   document.getElementById('ex-sets').textContent = ex.sets;
   document.getElementById('ex-time').textContent = ex.time;
   document.getElementById('ex-joints').textContent = ex.joints;
+  
+  const planesEl = document.getElementById('ex-planes');
+  if (planesEl) planesEl.textContent = ex.planes || 'Plano Sagital · Eixo Látero-Lateral';
+  
   document.getElementById('ex-moves').textContent = ex.moves;
   document.getElementById('ex-muscles').textContent = ex.muscles;
+  
+  const antSynEl = document.getElementById('ex-antagonists-synergists');
+  if (antSynEl) antSynEl.textContent = ex.antagonistsSynergists || 'Antagonistas e estabilizadores articulares.';
+  
+  const leverEl = document.getElementById('ex-lever');
+  if (leverEl) leverEl.textContent = ex.lever || '3ª Classe (Interpotente)';
+  
   document.getElementById('ex-why').textContent = ex.why;
   document.getElementById('ex-steps').innerHTML = ex.steps.map(s => `<li>${s}</li>`).join('');
 
@@ -702,6 +1067,227 @@ function openExercise(id, origin) {
   show('s-exercise');
 }
 
+// INICIAR FLUXO DE ANÁLISE POR IA
+function startIaFlow() {
+  state.iaAnalysisCompleted = true;
+  renderIaScreen();
+  show('s-ia-analysis');
+}
+
+// RENDERIZAR TELA DE ANÁLISE BIOMECÂNICA POR IA
+function renderIaScreen() {
+  const ex = state.current;
+  if (!ex) return;
+
+  state.isValgusSimulated = false;
+  state.isSkeletonVisible = true;
+  state.currentMotorStep = 1;
+
+  document.getElementById('ia-title').textContent = 'Análise por IA · ' + ex.name;
+  
+  const gifEl = document.getElementById('ia-gif-img');
+  if (gifEl && ex.gif) {
+    gifEl.src = ex.gif;
+  }
+
+  // Atualiza marcos articulares no SVG
+  const lm = ex.aiLandmarks || {
+    hip: { cx: 135, cy: 65, label: 'Quadril (82°)' },
+    knee: { cx: 152, cy: 120, label: 'Joelho (88°)' },
+    ankle: { cx: 140, cy: 175, label: 'Tornozelo (22°)' },
+    arc: 'M 145 106 A 18 18 0 0 1 155 134'
+  };
+
+  const ptHip = document.getElementById('ia-pt-hip');
+  const ptKnee = document.getElementById('ia-pt-knee');
+  const ptAnkle = document.getElementById('ia-pt-ankle');
+  const segThigh = document.getElementById('ia-seg-thigh');
+  const segShank = document.getElementById('ia-seg-shank');
+  const angleArc = document.getElementById('ia-angle-arc');
+  const plumbLine = document.getElementById('ia-plumb-line');
+  const lblHip = document.getElementById('ia-lbl-hip');
+  const lblKnee = document.getElementById('ia-lbl-knee');
+  const lblAnkle = document.getElementById('ia-lbl-ankle');
+
+  if (ptHip) { ptHip.setAttribute('cx', lm.hip.cx); ptHip.setAttribute('cy', lm.hip.cy); ptHip.setAttribute('fill', '#3fd6bf'); }
+  if (ptKnee) { ptKnee.setAttribute('cx', lm.knee.cx); ptKnee.setAttribute('cy', lm.knee.cy); ptKnee.setAttribute('fill', '#0d7d6f'); ptKnee.setAttribute('stroke', '#3fd6bf'); }
+  if (ptAnkle) { ptAnkle.setAttribute('cx', lm.ankle.cx); ptAnkle.setAttribute('cy', lm.ankle.cy); ptAnkle.setAttribute('fill', '#3fd6bf'); }
+  
+  if (segThigh) {
+    segThigh.setAttribute('x1', lm.hip.cx); segThigh.setAttribute('y1', lm.hip.cy);
+    segThigh.setAttribute('x2', lm.knee.cx); segThigh.setAttribute('y2', lm.knee.cy);
+    segThigh.setAttribute('stroke', '#3fd6bf');
+  }
+  if (segShank) {
+    segShank.setAttribute('x1', lm.knee.cx); segShank.setAttribute('y1', lm.knee.cy);
+    segShank.setAttribute('x2', lm.ankle.cx); segShank.setAttribute('y2', lm.ankle.cy);
+    segShank.setAttribute('stroke', '#3fd6bf');
+  }
+  if (angleArc && lm.arc) {
+    angleArc.setAttribute('d', lm.arc);
+    angleArc.setAttribute('stroke', '#dfb066');
+  }
+  if (plumbLine) {
+    plumbLine.setAttribute('x1', lm.hip.cx);
+    plumbLine.setAttribute('x2', lm.hip.cx);
+  }
+
+  if (lblHip) lblHip.textContent = lm.hip.label;
+  if (lblKnee) { lblKnee.textContent = lm.knee.label; lblKnee.setAttribute('fill', '#dfb066'); }
+  if (lblAnkle) lblAnkle.textContent = lm.ankle.label;
+
+  // Atualiza métricas
+  const m = ex.aiMetrics || {
+    angle: '88°', angleTarget: '✓ Alvo atingido',
+    align: '0° desvio', alignStatus: '✓ Alinhamento seguro',
+    symm: '50% D · 50% E', symmStatus: '✓ Balanceado',
+    time: '2.0 s', timeStatus: '✓ Controlado'
+  };
+
+  document.getElementById('ia-val-angle').textContent = m.angle;
+  document.getElementById('ia-status-angle').textContent = m.angleTarget;
+  document.getElementById('ia-val-align').textContent = m.align;
+  document.getElementById('ia-status-align').textContent = m.alignStatus;
+  document.getElementById('ia-val-symm').textContent = m.symm;
+  document.getElementById('ia-status-symm').textContent = m.symmStatus;
+  document.getElementById('ia-val-time').textContent = m.time;
+  document.getElementById('ia-status-time').textContent = m.timeStatus;
+
+  const angleBadge = document.getElementById('ia-badge-angle');
+  if (angleBadge) {
+    angleBadge.textContent = 'Flexão: ' + m.angle;
+    angleBadge.style.background = 'rgba(13, 125, 111, 0.92)';
+  }
+  const trackState = document.getElementById('ia-tracking-state');
+  if (trackState) trackState.textContent = 'Rastreamento Ativo';
+
+  // Feedback clínico
+  document.getElementById('ia-feedback-text').textContent = ex.aiFeedback || 'Movimento executado dentro do padrão cinesiológico recomendado.';
+
+  // Ficha biomecânica
+  document.getElementById('ia-bio-joints').textContent = ex.joints;
+  document.getElementById('ia-bio-planes').textContent = ex.planes || 'Plano Sagital · Eixo Látero-Lateral';
+  document.getElementById('ia-bio-agonists').textContent = ex.muscles;
+  document.getElementById('ia-bio-antagonists').textContent = ex.antagonistsSynergists ? ex.antagonistsSynergists.split('. ')[0] : 'Isquiotibiais';
+  document.getElementById('ia-bio-synergists').textContent = ex.antagonistsSynergists || 'Estabilizadores do core e pelve';
+  document.getElementById('ia-bio-contraction').textContent = ex.contraction || 'Excêntrica / Concêntrica';
+  document.getElementById('ia-bio-lever').textContent = ex.lever || '3ª Classe (Interpotente)';
+  document.getElementById('ia-bio-why').textContent = ex.why;
+
+  // Botões
+  const valgoBtn = document.getElementById('btn-valgo-txt');
+  if (valgoBtn) valgoBtn.textContent = 'Simular Valgo Dinâmico';
+  const skelBtn = document.getElementById('btn-skel-txt');
+  if (skelBtn) skelBtn.textContent = 'Ocultar Esqueleto';
+
+  // Inicializa stepper do controle motor
+  selectMotorStep(1);
+}
+
+// SIMULAÇÃO INTERATIVA DE VALGO DINÂMICO
+function toggleIaValgusSimulation() {
+  const ex = state.current;
+  if (!ex) return;
+
+  state.isValgusSimulated = !state.isValgusSimulated;
+  const lm = ex.aiLandmarks;
+  if (!lm) return;
+
+  const ptKnee = document.getElementById('ia-pt-knee');
+  const segThigh = document.getElementById('ia-seg-thigh');
+  const segShank = document.getElementById('ia-seg-shank');
+  const lblKnee = document.getElementById('ia-lbl-knee');
+  const badgeAngle = document.getElementById('ia-badge-angle');
+  const valAlign = document.getElementById('ia-val-align');
+  const statusAlign = document.getElementById('ia-status-align');
+  const feedbackTxt = document.getElementById('ia-feedback-text');
+  const btnTxt = document.getElementById('btn-valgo-txt');
+
+  if (state.isValgusSimulated) {
+    // Desloca o joelho 22px medialmente simulando o valgo dinâmico
+    const medialKneeCx = lm.knee.cx - 22;
+    if (ptKnee) {
+      ptKnee.setAttribute('cx', medialKneeCx);
+      ptKnee.setAttribute('fill', '#b7423f');
+      ptKnee.setAttribute('stroke', '#ffffff');
+    }
+    if (segThigh) {
+      segThigh.setAttribute('x2', medialKneeCx);
+      segThigh.setAttribute('stroke', '#dfb066');
+    }
+    if (segShank) {
+      segShank.setAttribute('x1', medialKneeCx);
+      segShank.setAttribute('stroke', '#dfb066');
+    }
+    if (lblKnee) {
+      lblKnee.setAttribute('x', medialKneeCx - 70);
+      lblKnee.setAttribute('fill', '#b7423f');
+      lblKnee.textContent = 'Valgo (+14°)';
+    }
+
+    if (badgeAngle) {
+      badgeAngle.textContent = '⚠ Alerta: Valgo Dinâmico';
+      badgeAngle.style.background = 'rgba(183, 66, 63, 0.95)';
+    }
+
+    if (valAlign) valAlign.textContent = '14° medial';
+    if (statusAlign) {
+      statusAlign.textContent = '⚠ Colapso medial';
+      statusAlign.style.background = '#fbeaea';
+      statusAlign.style.color = 'var(--coral)';
+    }
+
+    if (feedbackTxt) {
+      feedbackTxt.textContent = 'Atenção (Biofeedback): Houve aproximação medial excessiva dos joelhos (valgo dinâmico de 14°). O joelho ultrapassou a linha de prumo em direção à linha média corporal. Na próxima repetição, ative com mais ênfase o glúteo médio e aponte os joelhos na direção do segundo dedo do pé.';
+    }
+
+    if (btnTxt) btnTxt.textContent = 'Restaurar Alinhamento Neutro';
+  } else {
+    renderIaScreen();
+  }
+}
+
+// OCULTAR/EXIBIR ESQUELETO DE RASTREAMENTO
+function toggleIaSkeleton() {
+  state.isSkeletonVisible = !state.isSkeletonVisible;
+  const svg = document.getElementById('ia-hud-svg');
+  const btnTxt = document.getElementById('btn-skel-txt');
+  if (svg) {
+    svg.style.display = state.isSkeletonVisible ? 'block' : 'none';
+  }
+  if (btnTxt) {
+    btnTxt.textContent = state.isSkeletonVisible ? 'Ocultar Esqueleto' : 'Exibir Esqueleto';
+  }
+}
+
+// SELEÇÃO DO PASSO NO CICLO DE CONTROLE MOTOR
+function selectMotorStep(stepNum) {
+  state.currentMotorStep = stepNum;
+  const btns = document.querySelectorAll('#motor-stepper .motor-step-btn');
+  btns.forEach((b, idx) => {
+    b.classList.toggle('active', (idx + 1) === stepNum);
+  });
+
+  const ex = state.current;
+  if (!ex || !ex.motorSteps || !ex.motorSteps[stepNum - 1]) return;
+
+  const st = ex.motorSteps[stepNum - 1];
+  const titleEl = document.getElementById('motor-step-title');
+  const descEl = document.getElementById('motor-step-desc');
+  if (titleEl) titleEl.textContent = st.title;
+  if (descEl) descEl.textContent = st.desc;
+}
+
+// AVANÇAR DA IA PARA O CHECK-IN
+function proceedFromIaToCheckin() {
+  state.iaAnalysisCompleted = true;
+  openCheckin();
+}
+
+function iaBack() {
+  show('s-exercise');
+}
+
 function exerciseBack() {
   if (state.exerciseOrigin === 'physio') {
     show('s-physio-patient');
@@ -718,6 +1304,26 @@ function openCheckin() {
   document.getElementById('check-note').value = '';
   state.rating = null;
   document.querySelectorAll('#s-checkin .seg-btn').forEach(b => b.classList.remove('active'));
+
+  const iaStatusBox = document.getElementById('check-ia-status');
+  const iaStatusTxt = document.getElementById('check-ia-text');
+  if (iaStatusBox && iaStatusTxt) {
+    if (state.iaAnalysisCompleted) {
+      iaStatusBox.style.display = 'flex';
+      iaStatusBox.style.background = 'var(--teal-soft)';
+      iaStatusBox.style.borderLeftColor = 'var(--teal)';
+      const angle = state.current.aiMetrics ? state.current.aiMetrics.angle : '88°';
+      iaStatusTxt.textContent = `Análise de IA concluída: Alinhamento seguro (${angle} flexão)`;
+      iaStatusTxt.style.color = 'var(--teal-deep)';
+    } else {
+      iaStatusBox.style.display = 'flex';
+      iaStatusBox.style.background = 'var(--surface)';
+      iaStatusBox.style.borderLeftColor = 'var(--amber)';
+      iaStatusTxt.textContent = 'Check-in manual (sem análise por visão computacional)';
+      iaStatusTxt.style.color = 'var(--amber)';
+    }
+  }
+
   show('s-checkin');
 }
 
@@ -727,7 +1333,7 @@ function setRating(val, el) {
   el.classList.add('active');
 }
 
-function saveCheckin() {
+function saveCheckin(dest) {
   state.completed[state.current.id] = true;
 
   if (state.currentPatient) {
@@ -756,6 +1362,11 @@ function saveCheckin() {
   }
 
   renderDashboard();
+
+  if (dest === 'evolucao') {
+    show('s-evolucao');
+    return;
+  }
 
   const origin = state.exerciseOrigin;
   if (origin === 'exercicios') {

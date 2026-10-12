@@ -93,6 +93,17 @@
       <h2 style="font-size:17px;" id="ex-title">Agachamento</h2>
     </div>
 
+    <!-- CARD DE CHAMADA PARA ANÁLISE POR IA -->
+    <div class="ia-card" style="margin-bottom:12px; cursor:pointer;" onclick="startIaFlow()">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <span style="font-weight:700; font-size:12.5px; color:var(--teal-deep);">✦ Análise por IA &middot; Visão Computacional</span>
+        <span class="tag tag-teal" style="font-size:10.5px; background:var(--teal-soft); padding:3px 8px; border-radius:6px;">Iniciar &rarr;</span>
+      </div>
+      <p style="font-size:12px; color:var(--ink-soft); margin-top:5px; line-height:1.5;">
+        Rastreamento de pontos articulares (quadril, joelho e tornozelo), detecção de valgo dinâmico e cálculo angular em tempo real.
+      </p>
+    </div>
+
     <!-- DEMONSTRAÇÃO DO MOVIMENTO COM GIF REAL -->
     <div class="illus-stage card" id="ex-gif-stage">
       <img id="ex-gif-img" src="assets/gifs/agachamento.gif" alt="Demonstração do exercício" class="ex-gif">
@@ -114,23 +125,208 @@
       <p style="font-weight:700; font-size:13px; margin-bottom:6px;">Como fazer</p>
       <ol id="ex-steps"></ol>
     </div>
+
+    <!-- BIOMECÂNICA E CINESIOLOGIA DETALHADA (9 PONTOS) -->
     <div class="card" style="margin-bottom:14px; font-size:12.5px; color:var(--ink-soft); line-height:1.7;">
-      <b style="color:var(--ink);">Articulações envolvidas:</b> <span id="ex-joints"></span><br>
+      <p style="font-weight:700; font-size:13px; color:var(--ink); margin-bottom:6px; display:flex; justify-content:space-between; align-items:center;">
+        <span>Ficha Biomecânica &amp; Cinesiológica</span>
+        <span class="tag tag-teal" style="font-size:10px;">Critério A3 (9 pts)</span>
+      </p>
+      <b style="color:var(--ink);">Articulações:</b> <span id="ex-joints"></span><br>
+      <b style="color:var(--ink);">Planos e Eixos:</b> <span id="ex-planes">Plano Sagital &middot; Eixo Látero-Lateral</span><br>
       <b style="color:var(--ink);">Movimentos:</b> <span id="ex-moves"></span><br>
-      <b style="color:var(--ink);">Músculos principais:</b> <span id="ex-muscles"></span><br>
-      <b style="color:var(--ink);">Por que ajuda:</b> <span id="ex-why"></span>
+      <b style="color:var(--ink);">Músculos Agonistas:</b> <span id="ex-muscles"></span><br>
+      <b style="color:var(--ink);">Antagonistas &amp; Estabilizadores:</b> <span id="ex-antagonists-synergists"></span><br>
+      <b style="color:var(--ink);">Tipo de Alavanca:</b> <span id="ex-lever">3ª Classe (Interpotente)</span><br>
+      <b style="color:var(--ink);">Racional Clínico:</b> <span id="ex-why"></span>
     </div>
-    <button class="btn btn-primary" id="ex-complete-btn" onclick="openCheckin()">Concluir exercício</button>
-    <button class="btn btn-secondary" id="ex-voltar-btn" style="display:none;" onclick="exerciseBack()">Voltar à ficha do paciente</button>
+
+    <button class="btn btn-primary" id="ex-start-ia-btn" onclick="startIaFlow()">Iniciar com Análise de IA &rarr;</button>
+    <button class="btn btn-secondary" id="ex-complete-btn" style="margin-top:8px;" onclick="openCheckin()">Check-in direto (manual)</button>
+    <button class="btn btn-secondary" id="ex-voltar-btn" style="display:none; margin-top:8px;" onclick="exerciseBack()">Voltar à ficha do paciente</button>
+  </section>
+
+  <!-- ANÁLISE POR IA & CONTROLE MOTOR -->
+  <section class="screen" id="s-ia-analysis">
+    <div class="topbar">
+      <button class="backbtn" aria-label="Voltar ao exercício" onclick="iaBack()">&larr;</button>
+      <div>
+        <h2 style="font-size:17px;" id="ia-title">Análise por IA &middot; Agachamento</h2>
+        <p style="font-size:11px; color:var(--teal-deep); font-weight:600;">Visão Computacional &middot; Biofeedback</p>
+      </div>
+    </div>
+
+    <!-- STAGE DE RASTREAMENTO COM OVERLAY HUD -->
+    <div class="card" style="padding:12px; margin-bottom:12px;">
+      <div class="ia-tracking-container" id="ia-tracking-box">
+        <img id="ia-gif-img" src="assets/gifs/agachamento.gif" alt="Rastreamento IA" class="ia-gif-under">
+        <svg class="ia-hud-svg" viewBox="0 0 270 200" id="ia-hud-svg">
+          <!-- Linha de prumo (alinhamento frontal) -->
+          <line id="ia-plumb-line" x1="135" y1="15" x2="135" y2="185" stroke="#3fd6bf" stroke-width="1.2" stroke-dasharray="3,3" opacity="0.6"/>
+          
+          <!-- Segmentos esqueléticos (Coxofemoral -> Femorotibial -> Talocrural) -->
+          <line id="ia-seg-thigh" x1="135" y1="65" x2="152" y2="120" stroke="#3fd6bf" stroke-width="3" stroke-linecap="round"/>
+          <line id="ia-seg-shank" x1="152" y1="120" x2="140" y2="175" stroke="#3fd6bf" stroke-width="3" stroke-linecap="round"/>
+          
+          <!-- Arco de ângulo articular no joelho -->
+          <path id="ia-angle-arc" d="M 145 106 A 18 18 0 0 1 155 134" fill="none" stroke="#dfb066" stroke-width="2"/>
+          
+          <!-- Pontos articulares (Landmarks rastreados) -->
+          <!-- P1: Quadril (Trocânter maior) -->
+          <circle id="ia-pt-hip" cx="135" cy="65" r="5" fill="#3fd6bf" stroke="#ffffff" stroke-width="1.5"/>
+          <text id="ia-lbl-hip" x="65" y="68" fill="#ffffff" font-size="9" font-family="sans-serif" font-weight="700">Quadril (82°)</text>
+          
+          <!-- P2: Joelho (Côndilo femoral lateral) -->
+          <circle id="ia-pt-knee" cx="152" cy="120" r="6" fill="#0d7d6f" stroke="#3fd6bf" stroke-width="2"/>
+          <text id="ia-lbl-knee" x="162" y="123" fill="#dfb066" font-size="10" font-family="sans-serif" font-weight="700">Joelho (88°)</text>
+          
+          <!-- P3: Tornozelo (Maléolo lateral) -->
+          <circle id="ia-pt-ankle" cx="140" cy="175" r="5" fill="#3fd6bf" stroke="#ffffff" stroke-width="1.5"/>
+          <text id="ia-lbl-ankle" x="65" y="178" fill="#ffffff" font-size="9" font-family="sans-serif" font-weight="700">Tornozelo (22°)</text>
+        </svg>
+
+        <div class="ia-status-pill">
+          <span class="ia-pulse-dot"></span>
+          <span id="ia-tracking-state">Rastreamento Ativo</span>
+        </div>
+        <div class="ia-fps-pill">30 FPS</div>
+        <div class="ia-angle-badge" id="ia-badge-angle">Flexão: 88°</div>
+      </div>
+
+      <!-- Controles interativos da simulação -->
+      <div style="display:flex; justify-content:space-between; align-items:center; gap:6px;">
+        <button class="chip" style="flex:1; text-align:center; padding:7px 4px; font-size:11px;" onclick="toggleIaValgusSimulation()">
+          <span id="btn-valgo-txt">Simular Valgo Dinâmico</span>
+        </button>
+        <button class="chip" style="flex:1; text-align:center; padding:7px 4px; font-size:11px;" onclick="toggleIaSkeleton()">
+          <span id="btn-skel-txt">Ocultar Esqueleto</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- MÉTRICAS DETECTADAS EM TEMPO REAL -->
+    <p class="section-label" style="margin-top:0;">Métricas Biomecânicas Detectadas</p>
+    <div class="ia-metrics-grid">
+      <div class="ia-metric-card">
+        <div class="ia-metric-title">Ângulo Articular (ADM)</div>
+        <div class="ia-metric-val" id="ia-val-angle">88°</div>
+        <div class="ia-metric-status" id="ia-status-angle">✓ Alvo: 80°–90°</div>
+      </div>
+      <div class="ia-metric-card">
+        <div class="ia-metric-title">Alinhamento Frontal</div>
+        <div class="ia-metric-val" id="ia-val-align">0° desvio</div>
+        <div class="ia-metric-status" id="ia-status-align">✓ Sem valgo dinâmico</div>
+      </div>
+      <div class="ia-metric-card">
+        <div class="ia-metric-title">Simetria de Carga</div>
+        <div class="ia-metric-val" id="ia-val-symm">51% D &middot; 49% E</div>
+        <div class="ia-metric-status" id="ia-status-symm">✓ Carga balanceada</div>
+      </div>
+      <div class="ia-metric-card">
+        <div class="ia-metric-title">Tempo Excêntrico</div>
+        <div class="ia-metric-val" id="ia-val-time">2.1 s</div>
+        <div class="ia-metric-status" id="ia-status-time">✓ Cadência controlada</div>
+      </div>
+    </div>
+
+    <!-- FEEDBACK CLÍNICO EM TEMPO REAL (CR & CP) -->
+    <div class="ia-card" style="margin-bottom:12px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+        <p style="font-weight:700; font-size:12.5px; color:var(--teal-deep);">Feedback Clínico da IA</p>
+        <span class="tag tag-teal" style="font-size:10px;">CP &amp; CR Imediato</span>
+      </div>
+      <p style="font-size:12.5px; color:var(--ink); line-height:1.6;" id="ia-feedback-text">
+        Excelente padrão biomecânico! Joelho alinhado com o 2º dedo do pé, sem aproximação medial excessiva (valgo dinâmico preservado). Amplitude de 88° atingida com transição suave.
+      </p>
+      <p class="footnote" style="text-align:left; margin-top:8px; font-size:11px; color:var(--ink-soft);">
+        <b>Conhecimento de Performance (CP):</b> trajetória e alinhamento do joelho &middot; <b>Conhecimento de Resultados (CR):</b> meta de repetição e ângulo atingidos.
+      </p>
+    </div>
+
+    <!-- CICLO DE CONTROLE MOTOR NA PRÁTICA (REQUISITO A3) -->
+    <div class="motor-loop-card">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <p style="font-weight:700; font-size:12.5px; color:var(--ink);">Ciclo de Controle Motor</p>
+        <span class="tag tag-teal" style="font-size:10px;">Alça Fechada (Closed-Loop)</span>
+      </div>
+      <p style="font-size:11.5px; color:var(--ink-soft); margin-top:4px;">
+        Como o aplicativo atua na aprendizagem e refinamento sensório-motor do paciente:
+      </p>
+
+      <!-- Stepper com 5 etapas interativas -->
+      <div class="motor-stepper" id="motor-stepper">
+        <button class="motor-step-btn active" onclick="selectMotorStep(1)">1. Execução</button>
+        <button class="motor-step-btn" onclick="selectMotorStep(2)">2. Análise</button>
+        <button class="motor-step-btn" onclick="selectMotorStep(3)">3. Feedback</button>
+        <button class="motor-step-btn" onclick="selectMotorStep(4)">4. Correção</button>
+        <button class="motor-step-btn" onclick="selectMotorStep(5)">5. Nova Exec.</button>
+      </div>
+
+      <!-- Detalhamento dinâmico da etapa selecionada -->
+      <div class="motor-step-box" id="motor-step-box">
+        <div class="motor-step-title" id="motor-step-title">Etapa 1: Execução do Paciente</div>
+        <div class="motor-step-desc" id="motor-step-desc">
+          O paciente inicia o agachamento gerando comandos eferentes do córtex motor primário via tratos corticoespinhais para a musculatura de membros inferiores.
+        </div>
+      </div>
+    </div>
+
+    <!-- FICHA BIOMECÂNICA COMPLETA (CRITÉRIO 9 PONTOS) -->
+    <div class="biomech-card">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+        <p style="font-weight:700; font-size:12.5px; color:var(--ink);">Fundamentação Biomecânica</p>
+        <span class="tag tag-teal" style="font-size:10px;">Critério Técnico (9 pts)</span>
+      </div>
+      <div class="biomech-row">
+        <div class="biomech-label">🦴 Articulações e Classificação:</div>
+        <div class="biomech-text" id="ia-bio-joints">Coxofemoral (esferoide), Femorotibial (gínglimo bicondilar) e Talocrural (gínglimo).</div>
+      </div>
+      <div class="biomech-row">
+        <div class="biomech-label">📐 Planos e Eixos de Movimento:</div>
+        <div class="biomech-text" id="ia-bio-planes">Plano Sagital &middot; Eixo Látero-Lateral.</div>
+      </div>
+      <div class="biomech-row">
+        <div class="biomech-label">💪 Músculos Envolvidos:</div>
+        <div class="biomech-text">
+          <b>Agonistas:</b> <span id="ia-bio-agonists">Quadríceps femoral e Glúteo máximo</span><br>
+          <b>Antagonistas:</b> <span id="ia-bio-antagonists">Isquiotibiais e Iliopsoas</span><br>
+          <b>Sinergistas/Estabilizadores:</b> <span id="ia-bio-synergists">Glúteo médio/mínimo (estabilização frontal), Tríceps sural e Core abdominal</span>
+        </div>
+      </div>
+      <div class="biomech-row">
+        <div class="biomech-label">⚡ Contração &amp; Alavanca Biomecânica:</div>
+        <div class="biomech-text">
+          <b>Contração:</b> <span id="ia-bio-contraction">Excêntrica na descida &middot; Concêntrica na subida</span><br>
+          <b>Alavanca:</b> <span id="ia-bio-lever">3ª Classe (Interpotente) — Potência muscular aplicada entre o fulcro articular e a resistência corporal.</span>
+        </div>
+      </div>
+      <div class="biomech-row">
+        <div class="biomech-label">🎯 Aplicação Clínica e Reabilitação:</div>
+        <div class="biomech-text" id="ia-bio-why">
+          Fortalecimento em Cadeia Cinética Fechada (CCF) que minimiza forças de cisalhamento patelofemoral, estimula propriocepção articular e alinha o eixo mecânico do membro inferior.
+        </div>
+      </div>
+    </div>
+
+    <!-- AÇÕES -->
+    <button class="btn btn-primary" onclick="proceedFromIaToCheckin()">Confirmar Análise e Ir para Check-in &rarr;</button>
+    <button class="btn btn-secondary" style="margin-top:8px;" onclick="iaBack()">Voltar às instruções</button>
   </section>
 
   <!-- CHECK-IN -->
   <section class="screen" id="s-checkin">
     <div class="topbar"><h2 style="font-size:19px;">Exercício concluído</h2></div>
-    <div class="card" style="margin-bottom:14px;">
+    <div class="card" style="margin-bottom:12px;">
       <p style="font-weight:700;" id="check-exname">Agachamento</p>
       <p style="font-size:12.5px; color:var(--ink-soft);" id="check-exsets">3 séries &times; 10 repetições</p>
     </div>
+
+    <!-- STATUS DA ANÁLISE POR IA -->
+    <div id="check-ia-status" class="card" style="margin-bottom:12px; border-left:3px solid var(--teal); background:var(--teal-soft); display:flex; align-items:center; gap:8px;">
+      <span style="color:var(--teal-deep); font-weight:700;">✓</span>
+      <span style="font-size:12px; font-weight:600; color:var(--teal-deep);" id="check-ia-text">Análise de IA concluída: Alinhamento seguro (88° flexão)</span>
+    </div>
+
     <p style="font-weight:700; font-size:13px; margin-bottom:8px;">Como foi a execução?</p>
     <div class="seg" style="margin-bottom:14px;">
       <button class="seg-btn" onclick="setRating('facil',this)">Tranquilo</button>
@@ -142,7 +338,8 @@
       <textarea id="check-note" placeholder="Ex.: senti um leve desconforto no joelho..."></textarea>
     </div>
     <div style="flex:1;"></div>
-    <button class="btn btn-primary" onclick="saveCheckin()">Salvar e continuar</button>
+    <button class="btn btn-primary" onclick="saveCheckin('auto')">Salvar e concluir exercício</button>
+    <button class="btn btn-secondary" style="margin-top:8px;" onclick="saveCheckin('evolucao')">Salvar e ver minha evolução agora &rarr;</button>
   </section>
 
   <!-- EVOLUCAO -->

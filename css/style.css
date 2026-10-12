@@ -546,3 +546,249 @@ textarea {
   font-size: 13px;
   line-height: 1.6;
 }
+
+/* ========================================================
+   ESTILOS PARA ANÁLISE BIOMECÂNICA POR IA & CONTROLE MOTOR
+   ======================================================== */
+
+.ia-tracking-container {
+  position: relative;
+  width: 100%;
+  max-width: 270px;
+  height: 200px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #0f1a16;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 10px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+  border: 1px solid var(--line);
+}
+
+.ia-gif-under {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  opacity: 0.92;
+}
+
+.ia-hud-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.ia-status-pill {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background: rgba(10, 95, 85, 0.9);
+  color: #fff;
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .04em;
+  padding: 4px 9px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  backdrop-filter: blur(4px);
+  z-index: 2;
+}
+
+.ia-pulse-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #3fd6bf;
+  box-shadow: 0 0 8px #3fd6bf;
+  animation: ia-pulse 1.4s infinite ease-in-out;
+}
+
+@keyframes ia-pulse {
+  0% { transform: scale(0.9); opacity: 0.6; }
+  50% { transform: scale(1.3); opacity: 1; }
+  100% { transform: scale(0.9); opacity: 0.6; }
+}
+
+.ia-fps-pill {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: rgba(0, 0, 0, 0.68);
+  color: #3fd6bf;
+  font-size: 9.5px;
+  font-family: monospace;
+  font-weight: 700;
+  padding: 3px 7px;
+  border-radius: 6px;
+  z-index: 2;
+  border: 1px solid rgba(63, 214, 191, 0.3);
+}
+
+.ia-angle-badge {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  background: rgba(13, 125, 111, 0.92);
+  color: #ffffff;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  font-family: var(--font-body);
+  border: 1px solid #3fd6bf;
+  z-index: 2;
+}
+
+.ia-metrics-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.ia-metric-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 10px 12px;
+}
+
+.ia-metric-title {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ink-soft);
+  margin-bottom: 2px;
+}
+
+.ia-metric-val {
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--teal-deep);
+  line-height: 1.2;
+}
+
+.ia-metric-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--teal-deep);
+  background: var(--teal-soft);
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-top: 4px;
+}
+
+/* CICLO DE CONTROLE MOTOR */
+.motor-loop-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 14px;
+  margin-bottom: 14px;
+}
+
+.motor-stepper {
+  display: flex;
+  gap: 4px;
+  margin: 10px 0 12px;
+}
+
+.motor-step-btn {
+  flex: 1;
+  padding: 8px 3px;
+  text-align: center;
+  background: var(--teal-soft);
+  border: 1.5px solid transparent;
+  border-radius: 8px;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--teal-deep);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-family: var(--font-body);
+}
+
+.motor-step-btn.active {
+  background: var(--teal-deep);
+  color: #ffffff;
+  border-color: var(--teal);
+}
+
+.motor-step-box {
+  background: var(--bg);
+  border-radius: 9px;
+  padding: 11px 13px;
+  border: 1px solid var(--line);
+}
+
+.motor-step-title {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+
+.motor-step-desc {
+  font-size: 12px;
+  color: var(--ink-soft);
+  line-height: 1.6;
+}
+
+/* DETALHAMENTO BIOMECÂNICO EXPANDIDO (9 PONTOS) */
+.biomech-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 14px;
+  margin-bottom: 14px;
+}
+
+.biomech-row {
+  margin-bottom: 10px;
+  padding-bottom: 9px;
+  border-bottom: 1px solid var(--line);
+}
+
+.biomech-row:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.biomech-label {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 3px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.biomech-text {
+  font-size: 12px;
+  color: var(--ink-soft);
+  line-height: 1.6;
+}
+
+.biomech-tag {
+  display: inline-block;
+  font-size: 10.5px;
+  font-weight: 600;
+  background: var(--teal-soft);
+  color: var(--teal-deep);
+  padding: 2px 7px;
+  border-radius: 5px;
+  margin: 2px 4px 2px 0;
+}
+
