@@ -792,3 +792,109 @@ textarea {
   margin: 2px 4px 2px 0;
 }
 
+
+/* ========================================================
+   ESTILOS ADICIONAIS: CARDS DE DEMO, AVATAR E SVGs ANATÔMICOS
+   ======================================================== */
+
+.demo-cards-container {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  max-height: 250px;
+  overflow-y: auto;
+  padding-right: 2px;
+}
+
+.demo-user-card {
+  background: var(--surface);
+  border: 1.5px solid var(--line);
+  border-radius: 9px;
+  padding: 10px 12px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.demo-user-card:hover, .demo-user-card:active {
+  border-color: var(--teal);
+  background: var(--teal-soft);
+}
+
+.demo-user-card.physio-chip {
+  border-left: 3px solid var(--teal-deep);
+  background: rgba(13, 125, 111, 0.05);
+}
+
+.avatar-circle {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--teal-deep);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0.05em;
+  flex-shrink: 0;
+}
+
+/* ESTILOS PARA ILUSTRAÇÕES VETORIAIS SVG DOS EXERCÍCIOS */
+.ex-svg-art {
+  width: 100%;
+  max-width: 250px;
+  height: 180px;
+  background: var(--surface);
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  display: block;
+  margin: 0 auto;
+}
+
+@keyframes pulseY {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(5px); }
+}
+
+@keyframes floatX {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(6px); }
+}
+
+@keyframes floatXRev {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(-6px); }
+}
+
+@keyframes spineWave {
+  0%, 100% { d: path("M 85 115 Q 132 85 175 115"); }
+  50% { d: path("M 85 115 Q 132 135 175 115"); }
+}
+
+@keyframes pinch {
+  0%, 100% { transform: scaleX(1); }
+  50% { transform: scaleX(1.15); }
+}
+
+.anim-pulse-y {
+  animation: pulseY 1.8s ease-in-out infinite;
+}
+
+.anim-float-x {
+  animation: floatX 2s ease-in-out infinite;
+}
+
+.anim-float-x-rev {
+  animation: floatXRev 2s ease-in-out infinite;
+}
+
+.anim-spine-wave {
+  animation: spineWave 3.5s ease-in-out infinite alternate;
+}
+
+.anim-pinch {
+  transform-origin: center;
+  animation: pinch 2s ease-in-out infinite;
+}

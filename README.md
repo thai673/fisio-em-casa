@@ -1,44 +1,52 @@
 # Fisio em Casa 🏥🏠
-> **Plataforma Inteligente de Reabilitação Domiciliar Baseada em Cinesiologia Clínica e Inteligência Artificial**
+> **Plataforma Digital de Cinesioterapia Domiciliar Baseada em Biomecânica Clínica e Inteligência Artificial**
 
 Projeto desenvolvido para a **Avaliação A3** da Unidade Curricular **Movimento Humano**  
-**Docente Responsável:** Profa. Patrícia M. Franciulli  
-**Instituição:** Universidade São Judas Tadeu  
+**Docente Responsável:** Profa. Dra. Patrícia M. Franciulli  
+**Instituição:** Universidade São Judas Tadeu (USJT)  
 
 ---
 
-## 🎯 Sobre o Projeto
+## 🎯 Objetivo e Proposta do Aplicativo
 
-O **Fisio em Casa** é uma solução em saúde digital concebida para superar a taxa de **65% a 70% de abandono** observada em programas de exercícios domiciliares (*Home Exercise Programs - HEP*).
+O **Fisio em Casa** é uma plataforma digital projetada para apoiar a realização de exercícios terapêuticos domiciliares (*Home Exercise Programs - HEP*), superando a barreira histórica de **65% a 70% de abandono** e reduzindo as dificuldades de locomoção e transporte para adultos e idosos.
 
-A plataforma combina:
-1. **Biofeedback Visual Contínuo:** Demonstrações em GIFs biomecânicos reais que orientam o vetor de força, a cadência e previnem desvios posturais críticos (como o valgo dinâmico de joelho).
-2. **Fundamentação Cinesiológica:** Exercícios classificados em Cadeia Cinética Fechada (CCF), Cadeia Cinética Aberta (CCA) e análise de alavancas musculoesqueléticas (1ª, 2ª e 3ª classes).
-3. **Persistência de Dados Offline-First:** Armazenamento seguro de rotinas, histórico e sessões no navegador via JSON local.
-4. **Inteligência Artificial Ética (Human-in-the-Loop):** Monitoramento de sintomas atípicos e alertas precoces de risco, mantendo o fisioterapeuta como a autoridade clínica central.
+O aplicativo conecta:
+1. **Orientações Cinesioterapêuticas Rigorosas:** Prescrições divididas por condição clínica, com objetivos terapêuticos claros, orientações de execução em etapas e cuidados essenciais contra a dor.
+2. **Fundamentação Biomecânica Completa (Critério de 9 Pontos da UC):** Análise morfológica de articulações, planos e eixos cardinais, pares musculares (agonistas, antagonistas e estabilizadores) e alavancas biomecânicas (1ª, 2ª e 3ª classes).
+3. **Estudo de Visão Computacional (Google MediaPipe Pose Landmarker):** Proposta de acompanhamento futuro com a câmera do celular para rastreamento de 33 marcos corporais 3D, estimativa angular contínua e emissão de biofeedback corretivo instantâneo.
+4. **Ciclo de Controle Motor em Alça Fechada (*Closed-Loop*):** Execução $\rightarrow$ Análise Sensorial $\rightarrow$ Feedback Extrínseco (CP/CR) $\rightarrow$ Ajuste Motor (Feedforward) $\rightarrow$ Nova Execução Refinada.
+5. **Persistência de Dados e Ética (LGPD):** Armazenamento em JSON offline-first no navegador, sem promessas irrealistas e com total subordinação à avaliação clínica do fisioterapeuta.
 
 ---
 
-## 🤸 Biblioteca de Exercícios Prescritos
+## 👥 Perfis Clínicos de Demonstração (5 Pacientes Fictícios)
 
-1. **Agachamento Guiado (CCF):** Tripla flexão/extensão simultânea com co-contração protetora do LCA.
-2. **Flexão Plantar em Pé / Panturrilha:** Alavanca de 2ª classe (inter-resistente) com alta vantagem de força para propulsão da marcha.
-3. **Extensão de Joelho Sentado (CCA):** Alavanca de 3ª classe (interpotente) para fortalecimento analítico de quadríceps.
-4. **Elevação de Perna Reta (SLR):** Fortalecimento isométrico do reto femoral com baixo estresse patelofemoral.
-5. **Ponte de Glúteos:** Extensão pura coxofemoral para estabilização lombo-pélvica.
-6. **Marcha Estacionária:** Treinamento proprioceptivo e equilíbrio dinâmico para idosos.
-7. **Rotação Externa de Ombro:** Ativação de infraespinal e redondo menor para centralização umeral na fossa glenoide.
-8. **Alongamento de Isquiotibiais:** Melhora de flexibilidade e alívio de compensações posturais da coluna.
+1. **Maria Silva — Gonartrose (Osteoartrose de Joelho)**
+   - *Objetivo:* Melhorar a mobilidade, reduzir a dor e fortalecer os membros inferiores.
+   - *Exercícios (5):* Contração isométrica do quadríceps, Elevação da perna estendida (SLR), Sentar e levantar da cadeira, Ponte de glúteo e Extensão de joelho sentada.
+2. **João Pereira — Lombalgia Crônica**
+   - *Objetivo:* Melhorar a estabilidade da coluna vertebral, mobilidade segmentar e força muscular do core.
+   - *Exercícios (5):* Ponte de glúteo, Bird Dog, Gato-vaca, Contração abdominal (transverso) e Mobilidade pélvica.
+3. **Antônio Costa — Risco de Queda e Alteração do Equilíbrio (Geriatria)**
+   - *Objetivo:* Melhorar equilíbrio estático/dinâmico, coordenação motora e força muscular para prevenção de quedas.
+   - *Exercícios (5):* Sentar e levantar da cadeira, Equilíbrio em tandem, Marcha estacionária, Elevação dos calcanhares (panturrilha) e Caminhada lateral.
+4. **Beatriz Nunes — Tendinopatia do Manguito Rotador**
+   - *Objetivo:* Melhorar a mobilidade glenoumeral, descompressão subacromial e fortalecer a musculatura do ombro.
+   - *Exercícios (5):* Rotação externa com faixa elástica, Retração escapular, Remada com elástico, Exercício pendular de Codman e Elevação assistida do braço.
+5. **Carla Mendes — Pós-Operatório de Reconstrução do LCA (Joelho)**
+   - *Objetivo:* Recuperar mobilidade (flexão/extensão completa), força do quadríceps e controle neuromuscular seguro.
+   - *Exercícios (5):* Contração isométrica do quadríceps, Deslizamento do calcanhar, Elevação da perna estendida (SLR), Ponte de glúteo e Subida no degrau (Step-up).
 
 ---
 
 ## 💻 Tecnologias Empregadas
 
 * **Frontend:** HTML5 Semântico, CSS3 Moderno (Flexbox & CSS Grid), JavaScript Vanilla (ES6+)
-* **Visão Computacional & Biofeedback por IA:** Rastreamento de pontos articulares (*landmarks* no quadril, joelho e tornozelo), cálculo instantâneo de amplitude articular (ADM) e detecção dinâmica de valgo
-* **Ciclo de Controle Motor:** Mapeamento interativo de alça fechada (*Closed-Loop*: Execução $\rightarrow$ Análise Sensorial $\rightarrow$ Feedback CP/CR $\rightarrow$ Ajuste Feedforward $\rightarrow$ Nova Execução Refinada)
+* **Simulação de Visão Computacional:** Modelagem vetorial inspirada no **Google MediaPipe Pose Landmarker** (33 landmarks, HUD de rastreamento com cálculo angular, detecção de compensações e biofeedback visual)
+* **Visualização dos Movimentos:** GIFs anatômicos reais e ilustrações vetoriais animadas em SVG de alta precisão
 * **Armazenamento:** LocalStorage API estruturada em JSON (Offline-first com backup exportável)
-* **Design Responsivo:** Adaptável a smartphones, tablets e computadores
+* **Acessibilidade:** Padrões ergonômicos para adultos e idosos (alvos de toque de 44px+, alto contraste e tipografia limpa)
 
 ---
 
@@ -55,4 +63,3 @@ A plataforma combina:
 
 Acesse o protótipo funcional diretamente pelo GitHub Pages:  
 👉 **[https://thai673.github.io/fisio-em-casa/](https://thai673.github.io/fisio-em-casa/)**
-
