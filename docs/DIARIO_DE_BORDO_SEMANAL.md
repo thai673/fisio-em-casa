@@ -1,4 +1,4 @@
-# Diário de Bordo Semanal & Evidências de Processo
+# Diário de Bordo & Evidências de Processo (Registro de 2 Semanas)
 **Projeto A3 — Unidade Curricular: Movimento Humano**  
 **Universidade São Judas Tadeu (USJT)**  
 **Docente Responsável:** Profa. Dra. Patrícia M. Franciulli  
@@ -8,100 +8,135 @@
 
 ---
 
-## 1. Identificação do Registro Semanal
+# 📅 SEMANA 1: Pesquisa, Concepção Teórica & Modelagem da Solução
 
-* **Etapas da Neuroaprendizagem Trabalhadas:** **Efetivar** e **Interagir**.
-* **Momento do Projeto:** Refinamento Integral do Protótipo Funcional, Integração de 5 Perfis Clínicos Completos e Validação em Grupo.
-* **Integrantes do Grupo:** Equipe Discente de Fisioterapia — Universidade São Judas Tadeu.
-
----
-
-## 2. O que o Grupo Trabalhou Neste Encontro?
-
-Nesta etapa, o grupo avançou decisivamente da ideação e arquitetura inicial para a **consolidação técnica integral do protótipo navegável do *Fisio em Casa***, implementando:
-
-1. **Estruturação Completa dos 5 Perfis de Pacientes de Demonstração:**
-   * **Maria Silva (62 anos):** Gonartrose de Joelho — objetivo de alívio álgico, mobilidade articular e fortalecimento de membros inferiores.
-   * **João Pereira (45 anos):** Lombalgia Mecânico-Postural Crônica — objetivo de estabilidade lombo-pélvica (*core training*) e redução de sobrecarga discal.
-   * **Antônio Costa (74 anos):** Risco de Queda e Déficit de Equilíbrio — objetivo de prevenção de acidentes domésticos, controle proprioceptivo e fortalecimento funcional.
-   * **Beatriz Nunes (38 anos):** Tendinopatia do Manguito Rotador — objetivo de centralização da cabeça umeral, ritmo escapuloumeral e fortalecimento sem impacto subacromial.
-   * **Carla Mendes (29 anos):** Pós-operatório de Reconstrução do Ligamento Cruzado Anterior (LCA) — objetivo de restauração de ADM, ativação seletiva do quadríceps e controle do valgo dinâmico.
-
-2. **Acervo Cinesioterapêutico com 20 Exercícios Exclusivos:**
-   Cada um dos 5 pacientes recebeu sua grade individual de 5 exercícios pertinentes à sua condição patológica, totalizando 20 exercícios clínicos únicos. Cada exercício conta com:
-   * Demonstração visual animada padronizada (GIFs clínicos de alta definição e animações vetoriais anatômicas SVG dedicadas).
-   * Objetivo terapêutico específico.
-   * Instruções de execução passo a passo em etapas.
-   * Cuidados e contraindicações clínicas.
-   * Ficha biomecânica aprofundada (classificação articular morfológica, planos e eixos de movimento, músculos agonistas, antagonistas e estabilizadores, e análise de alavancas de 1ª, 2ª e 3ª classe).
-
-3. **Simulação Interativa de Inteligência Artificial & Visão Computacional:**
-   * Estruturação da simulação didática baseada na arquitetura do **Google MediaPipe Pose Landmarker (33 marcos anatômicos tridimensionais)**.
-   * Rastreamento visual de pontos-chave articulares: *Quadril (Trocânter Maior)*, *Joelho (Côndilo Femoral)* e *Tornozelo (Maléolo Lateral)*.
-   * Cálculo angular em tempo real (ex.: flexão de 88° no agachamento) e detecção vetorial de desalinhamento (ex.: valgo dinâmico medial de +14°).
-   * Modos interativos de alternância: feedback positivo de alinhamento neutro e simulação de compensação motora com alertas posturais imediatos.
-   * Inclusão de banner transparente delimitando que se trata de uma simulação funcional para demonstração acadêmica e viabilidade técnica, sem captura invasiva de câmera ou autonomia diagnóstica desvinculada do fisioterapeuta.
-
-4. **Nova Tela de Perfil do Paciente (`s-perfil`):**
-   * Apresentação acolhedora com avatar, dados pessoais, diagnóstico clínico, objetivos terapêuticos e recomendações gerais do profissional.
-   * Lista interativa de todos os exercícios vinculados ao plano terapêutico do paciente, permitindo consulta detalhada das orientações a qualquer momento.
-
-5. **Ciclo de Controle e Aprendizagem Motora Interativo:**
-   * Representação pedagógica do ciclo em alça fechada (*closed-loop*):
-     $$\text{Execução Motora} \longrightarrow \text{Análise Espacial/Temporal} \longrightarrow \text{Biofeedback Extrínseco (IA)} \longrightarrow \text{Correção Proprioceptiva (Feedforward)} \longrightarrow \text{Nova Execução Otimizada}$$
-   * Conexão teórica direta com os conceitos de *Conhecimento de Performance (CP)* e *Conhecimento de Resultados (CR)* de Schmidt e Wrisberg.
+### 1. Etapas da Neuroaprendizagem Trabalhadas
+* [x] **Conectar** (Empatia com o problema real do paciente e abandono do tratamento).
+* [x] **Explorar** (Pesquisa de literatura cinesiológica, biomecânica e tecnologias de IA).
+* [x] **Expandir & Evocar** (Arquitetura conceitual da plataforma e modelagem do fluxo).
 
 ---
 
-## 3. Decisões Tomadas pelo Grupo
-
-1. **Manter o Protótipo Navegável e Fluido:**
-   Optou-se por uma aplicação web moderna, responsiva para celulares e computadores, sem barreiras de instalação, utilizando armazenamento local (`localStorage` migrado para v4) para persistência de dados das sessões.
-2. **Definir o Agachamento e o Valgo Dinâmico como Estudo Central de IA:**
-   Para a demonstração ao vivo para a banca examinadora, o agachamento guiado com análise de valgo foi escolhido como caso de destaque, por evidenciar claramente a biomecânica do joelho e o risco lesivo ao LCA.
-3. **Equilíbrio entre Inovação e Ética Profissional:**
-   O grupo deliberou que o aplicativo deve enfatizar reiteradamente seu papel de ferramenta complementar ao fisioterapeuta. Os exercícios são apresentados como conteúdo educativo guiado por prescrição prévia, jamais como automedicação ou substituição da consulta presencial.
-4. **Priorização Máxima do Conhecimento Biomecânico Técnico (Critério de 9 Pontos):**
-   Garantir rigor científico nas análises biomecânicas presentes em todas as fichas dos 20 exercícios, contemplando tipos de contração, cadeias cinéticas (aberta e fechada) e braços de momento.
-
----
-
-## 4. Uso da Inteligência Artificial
-
-A Inteligência Artificial foi empregada em duas vertentes integradas:
-1. **Ferramenta de Apoio Metodológico e Desenvolvimento:**
-   * Apoio na estruturação da lógica de navegação sem redundâncias.
-   * Padronização das fichas biomecânicas e revisão de literatura científica.
-   * Elaboração de vetores anatômicos SVG dinâmicos com animações em CSS.
-2. **Componente Central da Solução em Saúde (*Fisio em Casa*):**
-   * **Simulação de Visão Computacional (MediaPipe Pose):** Rastreamento de eixos biomecânicos e cálculo trigonométrico angular para biofeedback corretivo instantâneo.
-   * **Triagem Clínica Inteligente no Painel do Fisioterapeuta:** Identificação algorítmica de relatos subjetivos de dor ou esforço "Difícil", priorizando pacientes em risco no topo da lista profissional.
+### 2. O que o Grupo Trabalhou Neste Encontro?
+1. **Identificação do Desafio Clínico (*Design Challenge*):**  
+   O grupo analisou o problema crônico da baixa adesão e descontinuidade dos programas de exercícios domiciliares (*Home Exercise Programs - HEP*). Dados da literatura fisioterapêutica (Jack et al., 2010; Essery et al., 2017) revelam taxas de abandono e não-aderência superiores a 65%, provocadas por insegurança na execução, ausência de supervisão em tempo real, dor aguda não monitorada e falta de motivação intrínseca.
+2. **Definição dos 5 Perfis Clínicos Prioritários:**  
+   Mapeamos cinco condições de saúde representativas da atenção básica e especializada em fisioterapia:
+   * **Maria Silva (62 anos):** Osteoartrose de joelho (Gonartrose);
+   * **João Pereira (45 anos):** Lombalgia crônica mecânico-postural;
+   * **Antônio Costa (74 anos):** Risco de queda e alteração do equilíbrio no idoso;
+   * **Beatriz Nunes (38 anos):** Tendinopatia do manguito rotador;
+   * **Carla Mendes (29 anos):** Pós-operatório de reconstrução do ligamento cruzado anterior (LCA).
+3. **Investigação de Inteligência Artificial e Visão Computacional:**  
+   Pesquisamos abordagens tecnológicas para análise do movimento humano sem a necessidade de sensores caros ou marcadores retrorefletivos. Identificamos o modelo **Google MediaPipe Pose Landmarker**, capaz de inferir 33 marcos anatômicos tridimensionais diretamente de frames de vídeo monoculares convencionais.
+4. **Fundamentação em Aprendizagem e Controle Motor:**  
+   Estruturamos a fundamentação teórica de controle motor baseada no modelo de circuito fechado (*closed-loop motor control*) de Schmidt & Wrisberg, onde o feedback visual extrínseco atua como Conhecimento de Performance (CP) para corrigir erros cinemáticos antes da consolidação de padrões patológicos.
 
 ---
 
-## 5. Aprendizados do Grupo
-
-* **Integração Tecnológica-Clínica:** Compreensão clara de que a Inteligência Artificial na fisioterapia precisa ter uma função clínica delimitada (fornecer *Conhecimento de Performance* para correção cinemática), e não ser apenas uma palavra-chave decorativa no trabalho.
-* **Biomecânica Aplicada à Reabilitação:** Fixação dos conceitos de cadeia cinética aberta (CCA) e fechada (CCF), co-contração estabilizadora de quadríceps/isquiotibiais, momento adutor do joelho e a importância crucial do glúteo médio na estabilização pélvica no plano frontal.
-* **Neurociência do Movimento:** Assimilação de como o feedback extrínseco imediato reduz a sobrecarga atencional da fase cognitiva da aprendizagem motora, acelerando a consolidação de programas motores seguros.
+### 3. Decisões Tomadas pelo Grupo
+1. **Foco na Acessibilidade e Inclusão:** A solução precisa rodar diretamente em navegadores web de celulares e computadores de baixo custo, sem exigir downloads complexos ou hardware dedicado.
+2. **Ética Profissional e Soberania do Fisioterapeuta:** A IA deve atuar exclusivamente como **ferramenta de apoio ao acompanhamento e à adesão**, fornecendo biofeedback e triagem de risco, **sem jamais prescrever exercícios de forma autônoma ou substituir a consulta e avaliação clínica do fisioterapeuta**.
+3. **Seleção do Exercício Âncora:** Escolhemos o **agachamento** (e sua variação funcional de sentar/levantar da cadeira) como o movimento central para aprofundamento biomecânico e demonstração de visão computacional, por envolver tríplice flexão/extensão (quadril, joelho e tornozelo) e alta prevalência da compensação em **valgo dinâmico**.
 
 ---
 
-## 6. Evidências do Processo — Etapa Interagir (Matriz de Testes em Grupo)
+### 4. Uso da Inteligência Artificial Neste Momento
+* **Pesquisa e Curadoria Técnico-Científica:** Utilização de ferramentas de IA para busca, filtragem e síntese de artigos científicos indexados (PubMed, SciELO, revistas da USP) sobre biomecânica da articulação patelofemoral e alavancas cinesiológicas.
+* **Planejamento da Arquitetura Tecnológica:** Mapeamento conceitual de como os vetores ósseos e arcos de circunferência articular seriam calculados a partir das coordenadas $(X, Y, Z)$ dos *landmarks* anatômicos.
 
-| Integrante / Avaliador | Perfil Testado | Fluxo / Cenário Avaliado | Resultado do Teste | Validação |
+---
+
+### 5. Aprendizados do Grupo
+* Compreendemos a distinção crucial entre **Conhecimento de Performance (CP)** (informação sobre o padrão cinemático do movimento, ex.: desvio de valgo de +14°) e **Conhecimento de Resultados (CR)** (informação sobre o desfecho da tarefa, ex.: 10 repetições concluídas).
+* Entendemos a importância da cadeia cinética fechada (CCF) na redução do estresse de cisalhamento anterior da tíbia e o papel estabilizador do músculo glúteo médio no plano frontal da pelve.
+* Ficou evidente que a IA só tem valor acadêmico e clínico se tiver uma função terapêutica bem justificada, e não apenas como um recurso estético.
+
+---
+
+### 6. Próximos Passos Definidos
+* Iniciar a programação e o design de interfaces do protótipo funcional navegável (*Fisio em Casa*).
+* Elaborar as fichas biomecânicas completas para todos os exercícios dos 5 pacientes.
+* Estruturar a simulação visual da detecção de marcos anatômicos e do valgo dinâmico.
+
+---
+---
+
+# 📅 SEMANA 2: Efetivação do Protótipo Funcional, Integração da IA & Testes de Usabilidade
+
+### 1. Etapas da Neuroaprendizagem Trabalhadas
+* [x] **Efetivar** (Construção do protótipo funcional, código, design responsivo e acervo de exercícios).
+* [x] **Interagir** (Testes de usabilidade em grupo, discussão crítica, ajustes e refinamento).
+
+---
+
+### 2. O que o Grupo Trabalhou Neste Encontro?
+1. **Construção do Protótipo Funcional Completo (*Fisio em Casa*):**  
+   Avançamos da ideação para a implementação técnica de uma Single Page Application (SPA) completa, responsiva, moderna e acolhedora, contendo:
+   * **Tela de Login:** Acesso rápido por chips dos 5 pacientes e perfil profissional da fisioterapeuta.
+   * **Home do Paciente:** Saudação humanizada, diagnóstico em destaque, barra de adesão semanal e objetivo terapêutico individualizado.
+   * **Nova Tela de Perfil do Paciente (`s-perfil`):** Apresentação do avatar, condição clínica, objetivo terapêutico específico, recomendações gerais da conduta fisioterapêutica e lista interativa de exercícios vinculados à sua condição.
+   * **Tela de Demonstração do Exercício:** Apresentação visual (GIFs cinemáticos e vetores SVG anatômicos dinâmicos), objetivo, passo a passo em 4 etapas, cuidados clínicos e ficha biomecânica aprofundada (classificação articular, planos, eixos, músculos e alavancas).
+   * **Tela de Análise por IA & Controle Motor:** Simulação do Google MediaPipe Pose Landmarker rastreando trocânter maior, côndilo femoral e maléolo lateral com cálculo angular instantâneo (88°).
+   * **Tela de Conclusão / Check-in Perceptivo:** Registro da percepção subjetiva de esforço (*Tranquilo*, *Moderado*, *Difícil*) e notas de autopercepção corporal.
+   * **Tela de Evolução:** Histórico cumulativo de treinos, gráfico semanal de consistência e síntese inteligente de evolução.
+   * **Painel do Fisioterapeuta:** Triagem algorítmica destacando pacientes com relato álgico/difícil, consulta de fichas e campo para gravação de novas observações clínicas.
+2. **Implementação do Acervo de 20 Exercícios Exclusivos:**  
+   Garantimos que cada um dos 5 pacientes recebesse exatamente os 5 exercícios clínicos prescritos para a sua patologia:
+   * *Maria Silva (Gonartrose):* Isometria de quadríceps, SLR, Sentar/Levantar, Ponte e Extensão sentada.
+   * *João Pereira (Lombalgia):* Ponte, Bird Dog, Gato-vaca, Contração abdominal e Mobilidade pélvica.
+   * *Antônio Costa (Equilíbrio/Idoso):* Sentar/Levantar com apoio, Tandem, Marcha estacionária, Elevação de calcanhares e Caminhada lateral.
+   * *Beatriz Nunes (Manguito Rotador):* Rotação externa com elástico, Retração escapular, Remada, Pendular de Codman e Elevação assistida.
+   * *Carla Mendes (Pós-op LCA):* Isometria de quadríceps, Deslizamento do calcanhar, SLR, Ponte e Subida no degrau (Step-up).
+3. **Desenvolvimento de 13 Animações Vetoriais Anatômicas em SVG:**  
+   Para os exercícios sem GIFs preexistentes, desenvolvemos ilustrações anatômicas estilizadas em vetores SVG com keyframes CSS dedicados, operando perfeitamente nos modos Claro e Escuro.
+4. **Simulação Interativa de Compensação Motora & Valgo Dinâmico:**  
+   Criamos controles interativos que permitem simular o movimento ideal (feedback positivo verde em 88°) versus a falha motora (valgo dinâmico de +14° medial com alerta sonoro/visual e instrução para ativação do glúteo médio).
+5. **Representação do Ciclo de Controle Motor em 5 Etapas:**  
+   Integramos um componente visual interativo demonstrando a alça fechada: `1. Execução → 2. Análise → 3. Feedback Extrínseco → 4. Correção Feedforward → 5. Nova Execução`.
+6. **Deploy no GitHub Pages e Pacote Compartilhável:**  
+   Realizamos o deploy contínuo em [https://thai673.github.io/fisio-em-casa/](https://thai673.github.io/fisio-em-casa/), além de gerar um arquivo HTML offline autocontido (`fisio-em-casa-compartilhavel.html`) e arquivo `.zip` para envio direto no WhatsApp.
+
+---
+
+### 3. Decisões Tomadas pelo Grupo
+1. **Manter o Protótipo Funcional e Simples:** Priorizamos a navegabilidade fluida e a demonstração intuitiva da proposta durante a apresentação, sem exigir logins complexos ou servidores externos pesados.
+2. **Migração Automática de Dados para a Versão 4 (`fisio_em_casa_patients_v4`):** Decidimos versionar a chave do armazenamento local para que qualquer membro do grupo ou avaliador veja os novos 5 pacientes e 20 exercícios sem conflito com dados antigos em cache.
+3. **Equilíbrio Ético e Educativo:** Reforçamos com banners institucionais que a análise de IA é um estudo de viabilidade educacional, e que a progressão de cargas e a liberação de exercícios dependem da avaliação soberana do fisioterapeuta.
+4. **Priorização da Nota Técnica de Biomecânica (9 Pontos):** Aprofundamos o detalhamento cinesiológico (planos, eixos, braços de momento, alavancas interfixas, inter-resistentes e interpotentes) em cada um dos 20 exercícios para garantir a nota máxima no critério técnico.
+
+---
+
+### 4. Uso da Inteligência Artificial Neste Momento
+* **Auxílio no Desenvolvimento de Código e Engenharia Web:** A IA auxiliou na organização dos dados cinesiológicos estruturados em JSON, no design responsivo em CSS e na modelagem matemática dos vetores e arcos nos gráficos SVG/Canvas.
+* **Componente da Solução em Saúde:** Estruturação da simulação do MediaPipe Pose com cálculo trigonométrico angular entre os pontos do trocânter maior, côndilo femoral e maléolo lateral, fornecendo o *Conhecimento de Performance* em tempo real.
+
+---
+
+### 5. Aprendizados do Grupo
+* Aprendemos a transformar conceitos teóricos de neuroaprendizagem e biomecânica em um protótipo funcional tangível e acessível.
+* Compreendemos na prática como o feedback extrínseco imediato por visão computacional encurta a transição entre a **fase cognitiva** (instável e com alto custo atencional) e a **fase associativa** da aprendizagem motora.
+* Consolidamos a visão de que a tecnologia deve empoderar o paciente a realizar seus exercícios com segurança em casa, fornecendo dados objetivos de adesão para que o fisioterapeuta tome decisões clínicas mais assertivas.
+
+---
+
+### 6. Evidências do Processo — Etapa Interagir (Matriz de Testes em Grupo)
+
+Durante esta semana, todos os integrantes do grupo testaram exaustivamente o aplicativo em computadores e celulares:
+
+| Integrante / Avaliador | Perfil Testado | Cenário / Fluxo Navegado | Observações & Validações do Grupo | Status |
 | :--- | :--- | :--- | :--- | :---: |
-| **Membro 1** | Maria Silva | Login $\rightarrow$ Perfil $\rightarrow$ Isometria e Agachamento $\rightarrow$ Check-in $\rightarrow$ Evolução | Fluxo contínuo sem travamentos; feedback de 88° muito claro. | **Aprovado ✓** |
-| **Membro 2** | João Pereira | Seleção do perfil $\rightarrow$ Exercício Bird Dog $\rightarrow$ Análise de alavanca de 1ª classe | Animação SVG fluida e instruções passo a passo precisas. | **Aprovado ✓** |
-| **Membro 3** | Antônio Costa | Exercício de Tandem e Caminhada Lateral $\rightarrow$ Ficha de propriocepção | Orientações de segurança para idosos bem destacadas. | **Aprovado ✓** |
-| **Membro 4** | Beatriz Nunes | Exercício de Manguito Rotador $\rightarrow$ Biomecânica do plano transversal | Músculos estabilizadores e cuidados subacromiais detalhados. | **Aprovado ✓** |
-| **Membro 5** | Carla Mendes | Pós-operatório de LCA $\rightarrow$ Simulação de Valgo Dinâmico vs. Alinhamento | Alerta de ativação de glúteo médio e prevenção de estresse no enxerto perfeito. | **Aprovado ✓** |
-| **Membro 6** | Dra. Ana (Fisio) | Acesso profissional $\rightarrow$ Painel de pacientes $\rightarrow$ Salvamento de observações clínicas | Persistência local imediata e filtragem por nível de atenção funcionando. | **Aprovado ✓** |
+| **Membro 1** | Maria Silva | Login $\rightarrow$ Perfil $\rightarrow$ Isometria e Agachamento $\rightarrow$ Check-in $\rightarrow$ Evolução | "O arco verde de 88° e o esqueleto facilitam muito o entendimento do limite articular seguro." | **Aprovado ✓** |
+| **Membro 2** | João Pereira | Perfil Lombalgia $\rightarrow$ Exercício Bird Dog e Mobilidade $\rightarrow$ Ficha de Alavanca de 1ª Classe | "As ilustrações em SVG animado ficaram muito claras e o passo a passo em 4 etapas é super didático." | **Aprovado ✓** |
+| **Membro 3** | Antônio Costa | Perfil Risco de Queda $\rightarrow$ Tandem e Marcha $\rightarrow$ Cuidados para idosos | "As orientações de segurança (apoio de cadeira/parede) dão muita tranquilidade para o paciente idoso." | **Aprovado ✓** |
+| **Membro 4** | Beatriz Nunes | Perfil Tendinopatia de Ombro $\rightarrow$ Rotação Externa $\rightarrow$ Ritmo Escapuloumeral | "A explicação dos músculos estabilizadores (manguito) atende perfeitamente os critérios da professora." | **Aprovado ✓** |
+| **Membro 5** | Carla Mendes | Perfil Pós-op LCA $\rightarrow$ Simulação de Valgo Dinâmico vs. Alinhamento | "O alerta vermelho ao colapsar o joelho para dentro deixa claro o perigo de sobrecarga no enxerto de LCA." | **Aprovado ✓** |
+| **Membro 6** | Dra. Ana (Fisio) | Painel Clínico $\rightarrow$ Triagem de Atenção $\rightarrow$ Registro de Conduta Clínica | "Os pacientes com relato 'Difícil' aparecem em destaque no topo e consegui salvar a anotação na ficha." | **Aprovado ✓** |
 
 ---
 
-## 7. Próximos Passos Definidos
-
-1. Conduzir rodadas de testes com amigos e familiares em diferentes modelos de smartphones (Android e iOS).
-2. Treinar a apresentação oral conforme o roteiro estruturado de 5 minutos, assegurando que todos os integrantes saibam justificar a biomecânica, o controle motor e o papel da IA.
-3. Disponibilizar os pacotes de entrega (link online no GitHub Pages, arquivo HTML offline autocontido e arquivo .zip com a documentação completa).
+### 7. Próximos Passos Definidos
+1. Realizar ensaios cronometrados da apresentação oral do grupo, utilizando o roteiro estruturado de 5 minutos:  
+   $$\text{Problema} \longrightarrow \text{Solução} \longrightarrow \text{Biomecânica} \longrightarrow \text{Controle Motor} \longrightarrow \text{IA} \longrightarrow \text{Impacto Social} \longrightarrow \text{Demonstração ao Vivo}$$
+2. Garantir que todos os integrantes saibam explicar com clareza o funcionamento da visão computacional, o ciclo de controle motor e a fundamentação biomecânica das alavancas.
+3. Submeter a versão final do repositório no GitHub Pages e os arquivos complementares na plataforma acadêmica da universidade.
