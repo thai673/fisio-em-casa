@@ -2014,8 +2014,73 @@ let state = {
   currentMotorStep: 1
 };
 
-// Inicialização dos elementos
+// UI HELPER: TOAST NOTIFICATIONS
+function showToast(message, type = 'info') {
+  const toast = document.getElementById('app-toast');
+  if (!toast) return;
+  toast.textContent = message;
+  toast.className = 'show ' + type;
+  setTimeout(() => {
+    toast.className = '';
+  }, 3200);
+}
+
+// UI HELPER: PASSWORD VISIBILITY TOGGLE
+function togglePasswordVisibility() {
+  const pwdInput = document.getElementById('login-senha');
+  const btn = document.getElementById('btn-toggle-password');
+  if (!pwdInput) return;
+  
+  if (pwdInput.type === 'password') {
+    pwdInput.type = 'text';
+    if (btn) btn.innerHTML = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>';
+  } else {
+    pwdInput.type = 'password';
+    if (btn) btn.innerHTML = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>';
+  }
+}
+
+// UI HELPER: DEMO ACCOUNTS ACCORDION TOGGLE
+function toggleDemoAccounts() {
+  const accordion = document.getElementById('demo-accordion');
+  const chevron = document.getElementById('demo-chevron');
+  if (!accordion) return;
+  
+  const isHidden = accordion.style.display === 'none';
+  accordion.style.display = isHidden ? 'block' : 'none';
+  if (chevron) {
+    chevron.style.transform = isHidden ? 'rotate(0deg)' : 'rotate(-90deg)';
+  }
+}
+
+// UI HELPER: DARK/LIGHT THEME TOGGLE
+function toggleTheme() {
+  const root = document.documentElement;
+  const current = root.getAttribute('data-theme') || 'light';
+  const next = current === 'dark' ? 'light' : 'dark';
+  root.setAttribute('data-theme', next);
+  try {
+    localStorage.setItem('fisio_theme', next);
+  } catch (e) {}
+  
+  const icon = document.getElementById('theme-icon');
+  if (icon) icon.textContent = next === 'dark' ? '☀️' : '🌓';
+}
+
+function loadInitialTheme() {
+  try {
+    const saved = localStorage.getItem('fisio_theme');
+    if (saved) {
+      document.documentElement.setAttribute('data-theme', saved);
+      const icon = document.getElementById('theme-icon');
+      if (icon) icon.textContent = saved === 'dark' ? '☀️' : '🌓';
+    }
+  } catch (e) {}
+}
+
+// INICIALIZAÇÃO DA APLICAÇÃO
 function initApp() {
+  loadInitialTheme();
   loadStorage();
 
   const navPatient = document.getElementById('nav-patient');
@@ -2046,7 +2111,7 @@ function initApp() {
   renderLoginDemoCards();
 }
 
-// RENDERIZAÇÃO DOS CARDS DE PACIENTES NA TELA DE LOGIN
+// RENDERIZAÇÃO DOS CARDS DE DEMONSTRAÇÃO NO LOGIN
 function renderLoginDemoCards() {
   const demoChips = document.getElementById('demo-chips');
   if (!demoChips) return;
@@ -2056,23 +2121,24 @@ function renderLoginDemoCards() {
     if (u.role === 'physio') {
       return `
         <div class="demo-user-card physio-chip" onclick="quickLogin('${u.email}')">
-          <div style="font-weight:700; color:var(--teal-deep);">${u.nome}</div>
-          <div style="font-size:11px; color:var(--ink-soft);">Acesso Clínico Fisioterapeuta</div>
+          <div style="font-weight:700; color:var(--primary-700); font-size:13px;">${u.nome}</div>
+          <div style="font-size:11.5px; color:var(--text-muted); margin-top:2px;">Acesso Profissional Fisioterapeuta</div>
         </div>
       `;
     }
     return `
       <div class="demo-user-card" onclick="quickLogin('${u.email}')">
         <div style="display:flex; justify-content:space-between; align-items:center;">
-          <span style="font-weight:700; color:var(--ink);">${pMatch ? pMatch.name : u.email}</span>
-          <span class="tag tag-teal" style="font-size:10px;">${pMatch ? pMatch.exercises.length : 0} exercícios</span>
+          <span style="font-weight:700; color:var(--text-main); font-size:13px;">${pMatch ? pMatch.name : u.email}</span>
+          <span class="tag tag-teal" style="font-size:10px;">${pMatch ? pMatch.exercises.length : 0} treinos</span>
         </div>
-        <div style="font-size:11px; color:var(--teal-deep); font-weight:600; margin-top:2px;">${pMatch ? pMatch.condition : 'Paciente'}</div>
+        <div style="font-size:11.5px; color:var(--primary-700); font-weight:600; margin-top:3px;">${pMatch ? pMatch.condition : 'Paciente'}</div>
       </div>
     `;
   }).join('');
 }
 
+// NAVEGAÇÃO ENTRE TELAS
 function show(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   const target = document.getElementById(id);
@@ -2086,18 +2152,91 @@ function show(id) {
   syncNav(id);
 }
 
+// SINCRONIZAÇÃO DE NAVEGAÇÃO (DESKTOP SIDEBAR + MOBILE BOTTOM BAR)
 function syncNav(id) {
-  const bar = state.role === 'patient' 
-    ? document.getElementById('nav-patient') 
-    : document.getElementById('nav-physio');
-  if (!bar || bar.style.display === 'none') return;
+  const isAuthScreen = (id === 's-login' || id === 's-signup');
+  const sidebar = document.getElementById('app-sidebar');
+  
+  if (sidebar) {
+    if (isAuthScreen) {
+      sidebar.classList.remove('show-sidebar');
+    } else {
+      sidebar.classList.add('show-sidebar');
+    }
+  }
 
-  const map = state.role === 'patient'
-    ? { 's-dash': 0, 's-exercicios': 1, 's-exercise': 1, 's-ia-analysis': 1, 's-checkin': 1, 's-evolucao': 2, 's-perfil': 3, 's-sobre': 3 }
-    : { 's-physio-dash': 0, 's-physio-list': 1, 's-physio-patient': 1, 's-exercise': 1, 's-ia-analysis': 1, 's-evolucao': 2, 's-perfil': 3, 's-sobre': 3 };
+  const navPatient = document.getElementById('nav-patient');
+  const navPhysio = document.getElementById('nav-physio');
 
-  const idx = map[id];
-  bar.querySelectorAll('.navitem').forEach((b, i) => b.classList.toggle('active', i === idx));
+  if (isAuthScreen) {
+    if (navPatient) navPatient.style.display = 'none';
+    if (navPhysio) navPhysio.style.display = 'none';
+    return;
+  }
+
+  // Define itens da sidebar
+  const sidebarNav = document.getElementById('sidebar-nav');
+  if (sidebarNav) {
+    const navItems = state.role === 'patient' ? [
+      { id: 's-dash', icon: 'home', label: 'Início (Treino de Hoje)' },
+      { id: 's-exercicios', icon: 'list', label: 'Meus Exercícios' },
+      { id: 's-evolucao', icon: 'chart', label: 'Minha Evolução' },
+      { id: 's-perfil', icon: 'person', label: 'Meu Perfil' }
+    ] : [
+      { id: 's-physio-dash', icon: 'home', label: 'Dashboard Geral' },
+      { id: 's-physio-list', icon: 'list', label: 'Diretório de Pacientes' },
+      { id: 's-evolucao', icon: 'chart', label: 'Evolução Clínica' },
+      { id: 's-perfil', icon: 'person', label: 'Configurações' }
+    ];
+
+    const currentScreenId = id;
+    sidebarNav.innerHTML = navItems.map(item => {
+      const isAct = (item.id === currentScreenId) || 
+                    (item.id === 's-dash' && ['s-exercise', 's-ia-analysis', 's-checkin'].includes(currentScreenId)) ||
+                    (item.id === 's-physio-dash' && currentScreenId === 's-physio-patient');
+      return `
+        <button class="sidebar-nav-item ${isAct ? 'active' : ''}" onclick="show('${item.id}')">
+          ${ICONS[item.icon]}
+          <span>${item.label}</span>
+        </button>
+      `;
+    }).join('');
+  }
+
+  // Atualiza usuário na sidebar
+  const sbAvatar = document.getElementById('sidebar-user-avatar');
+  const sbName = document.getElementById('sidebar-user-name');
+  const sbRole = document.getElementById('sidebar-user-role');
+  
+  if (state.role === 'patient' && state.currentPatient) {
+    const initials = state.currentPatient.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+    if (sbAvatar) sbAvatar.textContent = initials;
+    if (sbName) sbName.textContent = state.currentPatient.name;
+    if (sbRole) sbRole.textContent = state.currentPatient.condition;
+  } else if (state.role === 'physio') {
+    if (sbAvatar) sbAvatar.textContent = 'AR';
+    if (sbName) sbName.textContent = 'Dr. Ana Ribeiro';
+    if (sbRole) sbRole.textContent = 'Fisioterapeuta';
+  }
+
+  // Sincroniza barra mobile
+  const activeBar = state.role === 'patient' ? navPatient : navPhysio;
+  if (activeBar && activeBar.style.display !== 'none') {
+    const map = state.role === 'patient'
+      ? { 's-dash': 0, 's-exercicios': 1, 's-exercise': 1, 's-ia-analysis': 1, 's-checkin': 1, 's-evolucao': 2, 's-perfil': 3, 's-sobre': 3 }
+      : { 's-physio-dash': 0, 's-physio-list': 1, 's-physio-patient': 1, 's-exercise': 1, 's-ia-analysis': 1, 's-evolucao': 2, 's-perfil': 3, 's-sobre': 3 };
+
+    const idx = map[id];
+    activeBar.querySelectorAll('.navitem').forEach((b, i) => b.classList.toggle('active', i === idx));
+  }
+}
+
+// LOGOUT
+function doLogout() {
+  state.currentPatient = null;
+  state.completed = {};
+  show('s-login');
+  showToast('Sessão encerrada com sucesso.', 'info');
 }
 
 function doSignup() {
@@ -2143,6 +2282,7 @@ function doSignup() {
 
   saveStorage();
   goPatient(id);
+  showToast('Cadastro realizado com sucesso!', 'success');
 }
 
 function doLogin() {
@@ -2163,7 +2303,7 @@ function doLogin() {
 
   const user = USERS_DB.find(u => u.email.toLowerCase() === email);
   if (!user || user.pass !== senha) {
-    err.textContent = 'E-mail ou senha inválidos. Utilize uma das contas de demonstração abaixo.';
+    err.textContent = 'E-mail ou senha inválidos. Utilize uma das contas de demonstração.';
     err.style.display = 'block';
     return;
   }
@@ -2174,6 +2314,7 @@ function doLogin() {
   } else {
     goPatient(user.patientId);
   }
+  showToast(`Bem-vindo(a) ao Fisio em Casa!`, 'success');
 }
 
 function quickLogin(email) {
@@ -2186,6 +2327,7 @@ function quickLogin(email) {
   } else {
     goPatient(user.patientId);
   }
+  showToast(`Acessando como ${user.role === 'physio' ? user.nome : 'paciente'}...`, 'info');
 }
 
 function goPatient(patientId) {
@@ -2197,11 +2339,25 @@ function goPatient(patientId) {
   document.getElementById('nav-patient').style.display = 'flex';
   document.getElementById('nav-physio').style.display = 'none';
 
-  document.getElementById('perfil-nome').textContent = p.name;
-  document.getElementById('perfil-tipo').textContent = 'Paciente · ' + p.condition;
-  document.getElementById('dash-greeting').textContent = 'Olá, ' + p.name.split(' ')[0];
-  document.getElementById('dash-condition').textContent = p.condition;
+  // Atualiza dados na tela de perfil e dashboard
+  const pNome = document.getElementById('perfil-nome');
+  if (pNome) pNome.textContent = p.name;
   
+  const pTipo = document.getElementById('perfil-tipo');
+  if (pTipo) pTipo.textContent = 'Paciente · ' + p.condition;
+  
+  const dGreeting = document.getElementById('dash-greeting');
+  if (dGreeting) dGreeting.textContent = 'Olá, ' + p.name.split(' ')[0];
+  
+  const dCond = document.getElementById('dash-condition');
+  if (dCond) dCond.textContent = p.condition;
+  
+  // Saudação por horário
+  const hour = new Date().getHours();
+  const timeGreeting = hour < 12 ? 'BOM DIA' : (hour < 18 ? 'BOA TARDE' : 'BOA NOITE');
+  const dTime = document.getElementById('dash-greeting-time');
+  if (dTime) dTime.textContent = timeGreeting;
+
   const dashGoal = document.getElementById('dash-goal');
   if (dashGoal) dashGoal.textContent = p.objective || 'Melhora da mobilidade e fortalecimento muscular.';
 
@@ -2217,11 +2373,20 @@ function goPhysio(nome) {
   document.getElementById('nav-patient').style.display = 'none';
 
   const n = nome || 'Dr. Ana Ribeiro';
-  document.getElementById('perfil-nome').textContent = n;
-  document.getElementById('perfil-tipo').textContent = 'Fisioterapeuta';
-  document.getElementById('physio-greeting').textContent = 'Olá, ' + n;
-  document.getElementById('physio-patient-count').textContent = PATIENTS.length;
-  document.getElementById('physio-session-count').textContent = PATIENTS.reduce((sum, p) => sum + p.sessions, 0);
+  const pNome = document.getElementById('perfil-nome');
+  if (pNome) pNome.textContent = n;
+  
+  const pTipo = document.getElementById('perfil-tipo');
+  if (pTipo) pTipo.textContent = 'Fisioterapeuta';
+  
+  const phGreeting = document.getElementById('physio-greeting');
+  if (phGreeting) phGreeting.textContent = 'Olá, ' + n;
+  
+  const phCount = document.getElementById('physio-patient-count');
+  if (phCount) phCount.textContent = PATIENTS.length;
+  
+  const phSess = document.getElementById('physio-session-count');
+  if (phSess) phSess.textContent = PATIENTS.reduce((sum, p) => sum + p.sessions, 0);
 
   renderPatientList();
   renderAttention();
@@ -2231,37 +2396,54 @@ function goPhysio(nome) {
 function renderAttention() {
   const flagged = PATIENTS.filter(p => p.history && p.history[0] && p.history[0].rating === 'Difícil');
   const box = document.getElementById('physio-attention');
+  if (!box) return;
+
   if (flagged.length === 0) {
-    box.innerHTML = '<p class="empty-state" style="padding:16px;">Nenhum paciente sinalizou dificuldade na última sessão.</p>';
+    box.innerHTML = '<p class="footnote" style="padding:16px; background:var(--bg-surface-alt); border-radius:var(--radius-md); text-align:center;">Todos os pacientes apresentaram execução confortável nas últimas sessões.</p>';
     return;
   }
   box.innerHTML = flagged.map(p => `
     <div class="exrow" onclick="openPatient('${p.id}')">
       <div>
         <div class="exname">${p.name}</div>
-        <div class="exsets">${p.condition}</div>
+        <div class="exsets">${p.condition} &middot; Última sessão relatada como desafiadora</div>
       </div>
-      <span class="tag tag-amber">Atenção (Difícil)</span>
+      <span class="tag tag-coral">Atenção Prioritária</span>
     </div>
   `).join('');
 }
 
 function renderPatientList() {
   const list = document.getElementById('physio-list');
-  list.innerHTML = PATIENTS.map(p => `
-    <div class="exrow" onclick="openPatient('${p.id}')">
-      <div>
-        <div class="exname">${p.name}</div>
-        <div class="exsets">${p.condition} (${p.exercises.length} exercícios)</div>
+  if (!list) return;
+
+  list.innerHTML = PATIENTS.map(p => {
+    const initials = p.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+    const isAttention = p.history && p.history[0] && p.history[0].rating === 'Difícil';
+    const badge = isAttention ? '<span class="tag tag-coral">Requer atenção</span>' : `<span class="tag tag-teal">${p.evolution}% adesão</span>`;
+    
+    return `
+      <div class="card card-hover" style="margin-bottom:12px; cursor:pointer;" onclick="openPatient('${p.id}')">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <div style="display:flex; align-items:center; gap:12px;">
+            <div class="sidebar-user-avatar">${initials}</div>
+            <div>
+              <div class="exname" style="font-size:15px;">${p.name}</div>
+              <div class="exsets">${p.condition} &middot; ${p.exercises.length} exercícios prescritos</div>
+            </div>
+          </div>
+          <div>${badge}</div>
+        </div>
       </div>
-      <span class="tag tag-teal">${p.evolution}% aderência</span>
-    </div>
-  `).join('');
+    `;
+  }).join('');
 }
 
 function openPatient(id) {
   const p = PATIENTS.find(pt => pt.id === id);
+  if (!p) return;
   state.currentPatient = p;
+
   document.getElementById('pp-name').textContent = p.name;
   document.getElementById('pp-condition').textContent = p.condition;
   document.getElementById('pp-sessions').textContent = p.sessions;
@@ -2271,17 +2453,20 @@ function openPatient(id) {
   document.getElementById('pp-insight').textContent = p.insight;
   document.getElementById('pp-obs').value = p.obs || '';
 
-  document.getElementById('pp-exlist').innerHTML = p.exercises.length ? p.exercises.map(exid => {
-    const ex = EXERCISES.find(e => e.id === exid);
-    if (!ex) return '';
-    return `<div class="exrow" onclick="openExercise('${ex.id}', 'physio')">
-      <div>
-        <div class="exname">${ex.name}</div>
-        <div class="exsets">${ex.objective || ex.why}</div>
-      </div>
-      <span class="exsets" style="font-weight:600;">${ex.sets}</span>
-    </div>`;
-  }).join('') : '<p class="empty-state">Nenhum exercício prescrito ainda.</p>';
+  const ppExList = document.getElementById('pp-exlist');
+  if (ppExList) {
+    ppExList.innerHTML = p.exercises.length ? p.exercises.map(exid => {
+      const ex = EXERCISES.find(e => e.id === exid);
+      if (!ex) return '';
+      return `<div class="exrow" onclick="openExercise('${ex.id}', 'physio')">
+        <div>
+          <div class="exname">${ex.name}</div>
+          <div class="exsets">${ex.objective || ex.why}</div>
+        </div>
+        <span class="exsets" style="font-weight:700; color:var(--primary);">${ex.sets}</span>
+      </div>`;
+    }).join('') : '<p class="footnote">Nenhum exercício prescrito ainda.</p>';
+  }
 
   show('s-physio-patient');
 }
@@ -2291,7 +2476,7 @@ function savePhysioObservation() {
   const obs = document.getElementById('pp-obs').value.trim();
   state.currentPatient.obs = obs;
   saveStorage();
-  alert('Observação clínica do fisioterapeuta registrada com sucesso!');
+  showToast('Orientação clínica do fisioterapeuta registrada com sucesso!', 'success');
 }
 
 function myExercises() {
@@ -2299,64 +2484,131 @@ function myExercises() {
   return ids.map(id => EXERCISES.find(e => e.id === id)).filter(Boolean);
 }
 
+// RENDERIZAÇÃO DO DASHBOARD DO PACIENTE COM CARDS MODERNOS
 function renderDashboard() {
   const mine = myExercises();
   const list = document.getElementById('dash-exlist');
+  if (!list) return;
 
   if (mine.length === 0) {
-    list.innerHTML = '<p class="empty-state">Seu fisioterapeuta ainda não definiu sua rotina de exercícios.</p>';
+    list.innerHTML = '<p class="footnote" style="text-align:center; padding:24px; background:var(--bg-surface); border-radius:var(--radius-lg);">Seu fisioterapeuta ainda não definiu sua rotina de exercícios.</p>';
     document.getElementById('dash-start-btn').style.display = 'none';
     document.getElementById('dash-progress-txt').textContent = '0 de 0 concluídos';
     document.getElementById('dash-progress-fill').style.width = '0%';
+    const pct = document.getElementById('dash-progress-pct');
+    if (pct) pct.textContent = '0%';
     return;
   }
 
   document.getElementById('dash-start-btn').style.display = 'block';
-  list.innerHTML = mine.map(ex => {
-    const done = state.completed[ex.id];
-    const tag = done 
-      ? '<span class="tag tag-teal">Concluído</span>' 
-      : '<span class="tag tag-amber">Pendente</span>';
-    return `<div class="exrow" onclick="openExercise('${ex.id}', 'dash')">
-      <div style="flex:1; padding-right:8px;">
-        <div class="exname">${ex.name}</div>
-        <div class="exsets" style="margin-top:2px;">${ex.objective || ex.why}</div>
-        <div style="font-size:11px; color:var(--teal-deep); font-weight:600; margin-top:3px;">${ex.sets} &middot; ${ex.time}</div>
-      </div>
-      ${tag}
-    </div>`;
-  }).join('');
+  
+  // Renderiza cards em grid moderno
+  list.innerHTML = `
+    <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:14px;">
+      ${mine.map(ex => {
+        const done = state.completed[ex.id];
+        const tagClass = done ? 'tag-green' : 'tag-neutral';
+        const tagText = done ? '✓ Concluído' : 'Pendente';
+        
+        // Miniatura visual
+        let thumbHtml = '';
+        if (ex.visualType === 'gif' && ex.gif) {
+          thumbHtml = `<img src="${ex.gif}" alt="${ex.name}" style="width:100%; height:100%; object-fit:cover;">`;
+        } else {
+          thumbHtml = `<div style="transform:scale(0.85); width:100%;">${EXERCISE_SVGS[ex.svgId] || ''}</div>`;
+        }
+
+        return `
+          <div class="workout-card" onclick="openExercise('${ex.id}', 'dash')">
+            <div class="workout-thumb">
+              ${thumbHtml}
+              <div class="workout-badge"><span class="tag ${tagClass}">${tagText}</span></div>
+            </div>
+            <div class="workout-info">
+              <div class="workout-title">${ex.name}</div>
+              <div style="font-size:12px; color:var(--text-muted); line-height:1.45; margin-bottom:4px;">
+                ${ex.objective ? (ex.objective.length > 75 ? ex.objective.substring(0, 75) + '...' : ex.objective) : ex.why}
+              </div>
+              <div class="workout-meta">
+                <span>🔄 ${ex.sets}</span>
+                <span>⏱ ${ex.time}</span>
+              </div>
+            </div>
+            <button class="btn btn-secondary btn-sm" style="margin-top:auto;">
+              ${done ? 'Revisar exercício' : 'Iniciar exercício &rarr;'}
+            </button>
+          </div>
+        `;
+      }).join('')}
+    </div>
+  `;
 
   const doneCount = Object.keys(state.completed).length;
-  document.getElementById('dash-progress-fill').style.width = Math.round((doneCount / mine.length) * 100) + '%';
+  const pctValue = Math.round((doneCount / mine.length) * 100);
+  document.getElementById('dash-progress-fill').style.width = pctValue + '%';
   document.getElementById('dash-progress-txt').textContent = `${doneCount} de ${mine.length} concluídos`;
+  
+  const pctEl = document.getElementById('dash-progress-pct');
+  if (pctEl) pctEl.textContent = `${pctValue}%`;
 
   const btn = document.getElementById('dash-start-btn');
   btn.textContent = doneCount === 0 
-    ? 'Começar treino' 
-    : (doneCount < mine.length ? 'Continuar treino' : 'Treino concluído — ver evolução');
+    ? 'Começar treino de hoje &rarr;' 
+    : (doneCount < mine.length ? 'Continuar treino de hoje &rarr;' : 'Treino concluído! Ver evolução &rarr;');
 }
 
+// RENDERIZAÇÃO DA TELA MEUS EXERCÍCIOS
 function renderExerciciosScreen() {
   const mine = myExercises();
   const box = document.getElementById('exlist-full');
-  box.innerHTML = mine.length ? mine.map(ex => {
-    const done = state.completed[ex.id];
-    const tag = done 
-      ? '<span class="tag tag-teal">Concluído</span>' 
-      : '<span class="tag tag-amber">Pendente</span>';
-    return `<div class="exrow" onclick="openExercise('${ex.id}', 'exercicios')">
-      <div style="flex:1; padding-right:8px;">
-        <div class="exname">${ex.name}</div>
-        <div class="exsets" style="margin-top:2px;">${ex.objective || ex.why}</div>
-        <div style="font-size:11px; color:var(--ink-soft); margin-top:3px;"><b>Articulação:</b> ${ex.joints.split('(')[0]} &middot; <b>Alavanca:</b> ${ex.lever.split('—')[0]}</div>
-      </div>
-      ${tag}
-    </div>`;
-  }).join('') : '<p class="empty-state">Seu fisioterapeuta ainda não definiu sua rotina de exercícios.</p>';
+  if (!box) return;
+
+  if (mine.length === 0) {
+    box.innerHTML = '<p class="footnote" style="text-align:center; padding:24px;">Nenhum exercício prescrito no momento.</p>';
+    return;
+  }
+
+  box.innerHTML = `
+    <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:14px;">
+      ${mine.map(ex => {
+        const done = state.completed[ex.id];
+        const tagClass = done ? 'tag-green' : 'tag-neutral';
+        const tagText = done ? '✓ Concluído' : 'Pendente';
+        
+        let thumbHtml = '';
+        if (ex.visualType === 'gif' && ex.gif) {
+          thumbHtml = `<img src="${ex.gif}" alt="${ex.name}" style="width:100%; height:100%; object-fit:cover;">`;
+        } else {
+          thumbHtml = `<div style="transform:scale(0.85); width:100%;">${EXERCISE_SVGS[ex.svgId] || ''}</div>`;
+        }
+
+        return `
+          <div class="workout-card" onclick="openExercise('${ex.id}', 'exercicios')">
+            <div class="workout-thumb">
+              ${thumbHtml}
+              <div class="workout-badge"><span class="tag ${tagClass}">${tagText}</span></div>
+            </div>
+            <div class="workout-info">
+              <div class="workout-title">${ex.name}</div>
+              <div style="font-size:12px; color:var(--text-muted); line-height:1.45; margin-bottom:4px;">
+                ${ex.objective ? (ex.objective.length > 75 ? ex.objective.substring(0, 75) + '...' : ex.objective) : ex.why}
+              </div>
+              <div class="workout-meta">
+                <span>🔄 ${ex.sets}</span>
+                <span>⏱ ${ex.time}</span>
+              </div>
+            </div>
+            <button class="btn btn-secondary btn-sm" style="margin-top:auto;">
+              ${done ? 'Ver instruções' : 'Praticar &rarr;'}
+            </button>
+          </div>
+        `;
+      }).join('')}
+    </div>
+  `;
 }
 
-// RENDERIZAÇÃO DA TELA DE PERFIL DO PACIENTE (Seção 3.B)
+// RENDERIZAÇÃO DA TELA DE PERFIL DO PACIENTE
 function renderProfileScreen() {
   const p = state.currentPatient;
   if (!p) return;
@@ -2396,7 +2648,7 @@ function renderProfileScreen() {
   const chipsEl = document.getElementById('perfil-patient-chips');
   if (chipsEl) {
     chipsEl.innerHTML = PATIENTS.map(pt => `
-      <button class="chip ${pt.id === p.id ? 'active' : ''}" onclick="goPatient('${pt.id}')">
+      <button class="btn btn-secondary btn-sm ${pt.id === p.id ? 'btn-primary' : ''}" style="width:auto;" onclick="goPatient('${pt.id}')">
         ${pt.name} (${pt.condition.split('(')[0].trim()})
       </button>
     `).join('');
@@ -2473,7 +2725,7 @@ function openExercise(id, origin) {
     if (gifImg) gifImg.style.display = 'none';
     if (svgContainer) {
       svgContainer.style.display = 'block';
-      svgContainer.innerHTML = EXERCISE_SVGS[ex.svgId] || '<p class="empty-state">Ilustração anatômica em preparação.</p>';
+      svgContainer.innerHTML = EXERCISE_SVGS[ex.svgId] || '<p class="footnote">Ilustração anatômica em preparação.</p>';
     }
   }
 
@@ -2542,23 +2794,23 @@ function renderIaScreen() {
   const lblKnee = document.getElementById('ia-lbl-knee');
   const lblAnkle = document.getElementById('ia-lbl-ankle');
 
-  if (ptHip) { ptHip.setAttribute('cx', lm.hip.cx); ptHip.setAttribute('cy', lm.hip.cy); ptHip.setAttribute('fill', '#3fd6bf'); }
-  if (ptKnee) { ptKnee.setAttribute('cx', lm.knee.cx); ptKnee.setAttribute('cy', lm.knee.cy); ptKnee.setAttribute('fill', '#0d7d6f'); ptKnee.setAttribute('stroke', '#3fd6bf'); }
-  if (ptAnkle) { ptAnkle.setAttribute('cx', lm.ankle.cx); ptAnkle.setAttribute('cy', lm.ankle.cy); ptAnkle.setAttribute('fill', '#3fd6bf'); }
+  if (ptHip) { ptHip.setAttribute('cx', lm.hip.cx); ptHip.setAttribute('cy', lm.hip.cy); ptHip.setAttribute('fill', '#2DD4BF'); }
+  if (ptKnee) { ptKnee.setAttribute('cx', lm.knee.cx); ptKnee.setAttribute('cy', lm.knee.cy); ptKnee.setAttribute('fill', '#0D9488'); ptKnee.setAttribute('stroke', '#2DD4BF'); }
+  if (ptAnkle) { ptAnkle.setAttribute('cx', lm.ankle.cx); ptAnkle.setAttribute('cy', lm.ankle.cy); ptAnkle.setAttribute('fill', '#2DD4BF'); }
   
   if (segThigh) {
     segThigh.setAttribute('x1', lm.hip.cx); segThigh.setAttribute('y1', lm.hip.cy);
     segThigh.setAttribute('x2', lm.knee.cx); segThigh.setAttribute('y2', lm.knee.cy);
-    segThigh.setAttribute('stroke', '#3fd6bf');
+    segThigh.setAttribute('stroke', '#2DD4BF');
   }
   if (segShank) {
     segShank.setAttribute('x1', lm.knee.cx); segShank.setAttribute('y1', lm.knee.cy);
     segShank.setAttribute('x2', lm.ankle.cx); segShank.setAttribute('y2', lm.ankle.cy);
-    segShank.setAttribute('stroke', '#3fd6bf');
+    segShank.setAttribute('stroke', '#2DD4BF');
   }
   if (angleArc && lm.arc) {
     angleArc.setAttribute('d', lm.arc);
-    angleArc.setAttribute('stroke', '#dfb066');
+    angleArc.setAttribute('stroke', '#F59E0B');
   }
   if (plumbLine) {
     plumbLine.setAttribute('x1', lm.hip.cx);
@@ -2566,7 +2818,7 @@ function renderIaScreen() {
   }
 
   if (lblHip) lblHip.textContent = lm.hip.label;
-  if (lblKnee) { lblKnee.textContent = lm.knee.label; lblKnee.setAttribute('fill', '#dfb066'); }
+  if (lblKnee) { lblKnee.textContent = lm.knee.label; lblKnee.setAttribute('fill', '#F59E0B'); }
   if (lblAnkle) lblAnkle.textContent = lm.ankle.label;
 
   // Atualiza métricas
@@ -2589,7 +2841,7 @@ function renderIaScreen() {
   const angleBadge = document.getElementById('ia-badge-angle');
   if (angleBadge) {
     angleBadge.textContent = 'Ângulo: ' + m.angle;
-    angleBadge.style.background = 'rgba(13, 125, 111, 0.92)';
+    angleBadge.style.background = 'rgba(13, 148, 136, 0.95)';
   }
   const trackState = document.getElementById('ia-tracking-state');
   if (trackState) trackState.textContent = 'Simulação Ativa (33 Pontos)';
@@ -2609,7 +2861,7 @@ function renderIaScreen() {
 
   // Botões
   const compBtn = document.getElementById('btn-valgo-txt');
-  if (compBtn) compBtn.textContent = 'Simular Compensação Postural';
+  if (compBtn) compBtn.textContent = 'Simular Desvio Postural';
   const skelBtn = document.getElementById('btn-skel-txt');
   if (skelBtn) skelBtn.textContent = 'Ocultar Esqueleto';
 
@@ -2617,7 +2869,7 @@ function renderIaScreen() {
   selectMotorStep(1);
 }
 
-// SIMULAÇÃO INTERATIVA DE COMPENSAÇÃO POSTURAL (VALGO / BÁSCULA / COMPENSAÇÃO)
+// SIMULAÇÃO INTERATIVA DE COMPENSAÇÃO POSTURAL (VALGO / BÁSCULA)
 function toggleIaValgusSimulation() {
   const ex = state.current;
   if (!ex) return;
@@ -2640,42 +2892,44 @@ function toggleIaValgusSimulation() {
     const medialCx = lm.knee.cx - 22;
     if (ptKnee) {
       ptKnee.setAttribute('cx', medialCx);
-      ptKnee.setAttribute('fill', '#b7423f');
-      ptKnee.setAttribute('stroke', '#ffffff');
+      ptKnee.setAttribute('fill', '#EF4444');
+      ptKnee.setAttribute('stroke', '#FFFFFF');
     }
     if (segThigh) {
       segThigh.setAttribute('x2', medialCx);
-      segThigh.setAttribute('stroke', '#dfb066');
+      segThigh.setAttribute('stroke', '#F59E0B');
     }
     if (segShank) {
       segShank.setAttribute('x1', medialCx);
-      segShank.setAttribute('stroke', '#dfb066');
+      segShank.setAttribute('stroke', '#F59E0B');
     }
     if (lblKnee) {
       lblKnee.setAttribute('x', medialCx - 70);
-      lblKnee.setAttribute('fill', '#b7423f');
+      lblKnee.setAttribute('fill', '#EF4444');
       lblKnee.textContent = 'Desvio (+14°)';
     }
 
     if (badgeAngle) {
-      badgeAngle.textContent = '⚠ Alerta: Desvio Detectado';
-      badgeAngle.style.background = 'rgba(183, 66, 63, 0.95)';
+      badgeAngle.textContent = '⚠ Desvio Postural (+14°)';
+      badgeAngle.style.background = 'rgba(239, 68, 68, 0.95)';
     }
 
-    if (valAlign) valAlign.textContent = 'Compensação 14°';
+    if (valAlign) valAlign.textContent = 'Desvio 14°';
     if (statusAlign) {
-      statusAlign.textContent = '⚠ Desvio Postural';
-      statusAlign.style.background = '#fbeaea';
-      statusAlign.style.color = 'var(--coral)';
+      statusAlign.textContent = '⚠ Compensação';
+      statusAlign.style.background = '#FEF2F2';
+      statusAlign.style.color = '#EF4444';
     }
 
     if (feedbackTxt) {
-      feedbackTxt.textContent = ex.aiFeedbackCorrection || 'Atenção ao alinhamento postural: Houve aproximação excessiva da linha média corporal. Na próxima repetição, ative com mais ênfase a musculatura estabilizadora e corrija a trajetória articular.';
+      feedbackTxt.textContent = ex.aiFeedbackCorrection || 'Atenção ao alinhamento: Houve deslocamento medial. Na próxima repetição, ative os estabilizadores da pelve e mantenha o alinhamento correto.';
     }
 
-    if (btnTxt) btnTxt.textContent = 'Restaurar Padrão Correto';
+    if (btnTxt) btnTxt.textContent = 'Restaurar Alinhamento Neutro';
+    showToast('Simulação: compensação postural ativada.', 'warning');
   } else {
     renderIaScreen();
+    showToast('Alinhamento neutro restaurado.', 'success');
   }
 }
 
@@ -2744,17 +2998,17 @@ function openCheckin() {
   if (iaStatusBox && iaStatusTxt) {
     if (state.iaAnalysisCompleted) {
       iaStatusBox.style.display = 'flex';
-      iaStatusBox.style.background = 'var(--teal-soft)';
-      iaStatusBox.style.borderLeftColor = 'var(--teal)';
+      iaStatusBox.style.background = 'var(--primary-light)';
+      iaStatusBox.style.borderLeftColor = 'var(--primary)';
       const angle = state.current.aiMetrics ? state.current.aiMetrics.angle : '88°';
       iaStatusTxt.textContent = `Análise por IA concluída: Alinhamento seguro (${angle})`;
-      iaStatusTxt.style.color = 'var(--teal-deep)';
+      iaStatusTxt.style.color = 'var(--primary-800)';
     } else {
       iaStatusBox.style.display = 'flex';
-      iaStatusBox.style.background = 'var(--surface)';
-      iaStatusBox.style.borderLeftColor = 'var(--amber)';
-      iaStatusTxt.textContent = 'Check-in manual (sem simulação de visão computacional)';
-      iaStatusTxt.style.color = 'var(--amber)';
+      iaStatusBox.style.background = 'var(--bg-surface-alt)';
+      iaStatusBox.style.borderLeftColor = 'var(--warning)';
+      iaStatusTxt.textContent = 'Check-in manual (sem análise por câmera)';
+      iaStatusTxt.style.color = 'var(--warning-text)';
     }
   }
 
@@ -2795,6 +3049,7 @@ function saveCheckin(dest) {
   }
 
   renderDashboard();
+  showToast('Exercício registrado com sucesso!', 'success');
 
   if (dest === 'evolucao') {
     show('s-evolucao');
@@ -2823,7 +3078,7 @@ function saveCheckin(dest) {
 function renderEvolution() {
   const p = state.currentPatient || PATIENTS[0];
   document.getElementById('ev-title').textContent = state.role === 'patient' 
-    ? 'Minha evolução' 
+    ? 'Minha Evolução' 
     : 'Evolução — ' + p.name;
   document.getElementById('ev-sessions').textContent = p.sessions;
   document.getElementById('ev-completed').textContent = p.completed;
@@ -2832,15 +3087,15 @@ function renderEvolution() {
   const weeklyBars = p.weekly || [50, 60, 70, 80];
   document.getElementById('ev-bars').innerHTML = weeklyBars.map((v, i) => `
     <div class="barcol">
-      <div class="bar" style="height:${Math.max(v, 3)}%;"></div>
-      <div class="bar-lbl">S${i + 1} · ${v}%</div>
+      <div class="bar" style="height:${Math.max(v, 4)}%;"></div>
+      <div class="bar-lbl">S${i + 1} &middot; ${v}%</div>
     </div>
   `).join('');
 
   document.getElementById('ev-insight').textContent = p.insight;
   document.getElementById('ev-history').innerHTML = p.history && p.history.length ? p.history.map(h => {
-    const tagClass = h.rating === 'Difícil' || h.rating === 'Moderado' ? 'tag-amber' : 'tag-teal';
-    const noteDisplay = h.note ? `<div style="font-size:11px; color:var(--ink-soft); margin-top:2px;">"${h.note}"</div>` : '';
+    const tagClass = h.rating === 'Difícil' ? 'tag-coral' : (h.rating === 'Moderado' ? 'tag-amber' : 'tag-green');
+    const noteDisplay = h.note ? `<div style="font-size:12px; color:var(--text-muted); margin-top:2px;">"${h.note}"</div>` : '';
     return `
       <div class="exrow" style="align-items:flex-start;">
         <div>
@@ -2850,7 +3105,7 @@ function renderEvolution() {
         <span class="tag ${tagClass}">${h.rating}</span>
       </div>
     `;
-  }).join('') : '<p class="empty-state">Ainda não há sessões registradas.</p>';
+  }).join('') : '<p class="footnote" style="text-align:center; padding:16px;">Ainda não há sessões registradas.</p>';
 }
 
 // Inicializar na carga do documento
